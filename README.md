@@ -14,17 +14,19 @@ language links near the top of both files. Use `README.md` /
 `name.zh-CN.md` for other documents. Code, identifiers, commands, and protocol
 field names remain unchanged across translations.
 
-The workspace contains three independent Git repositories:
+The workspace contains four independent Git repositories:
 
 | Path | Role |
 | --- | --- |
 | `integration/` | This repository: west manifest, architecture, shared API contracts, and cross-repository checks |
-| `qwenpaw/` | QwenPaw server, including the in-process Page Assist module |
+| `qwenpaw/` | Unmodified upstream QwenPaw source reference; not required to run the plugin |
+| `qwenpaw-channel-page-assist/` | Independently installed in-process Page Assist channel plugin |
 | `page-assist/` | Page Assist fork, including the remote QwenPaw UI and transport |
 
-The two product repositories are west projects, **not Git submodules**. `west.yml`
-is the source of truth for their URLs and revisions. Do not also add them to
-`.gitmodules`.
+The two upstream checkouts are west projects, **not Git submodules**. `west.yml`
+records their upstream baseline URLs and revisions. The new plugin repository
+is currently local-only and not yet managed by west; no remote URL has been
+assigned. Do not add a fictitious URL or local-only commit to the release manifest.
 
 ## Baseline
 
@@ -51,6 +53,12 @@ west list
 The `.west/` directory is created beside `integration/`; the product checkouts
 appear at `qwenpaw/` and `page-assist/`.
 
+`west update` does not fetch the standalone plugin or reproduce the current local
+Page Assist feature branch. Place the plugin checkout at
+`qwenpaw-channel-page-assist/` beside these directories. Once real remote URLs
+exist, add the plugin project and pin both implementations to tested, remotely
+available commits. Until then this manifest reproduces upstream baselines only.
+
 In this already initialized workspace, update projects after changing `west.yml`
 with:
 
@@ -64,8 +72,9 @@ changes, create a feature branch in the relevant product checkout. Do not use
 
 ## Development boundaries
 
-- Implement server behavior only in `qwenpaw/`; the integration runs inside the
-  QwenPaw process. Do not add a separate Bridge service.
+- Implement channel behavior only in `qwenpaw-channel-page-assist/`; install it
+  into a pip-distributed QwenPaw environment. Do not modify upstream core or add
+  a separate Bridge service.
 - Implement browser UI, page snapshotting, and remote transport only in
   `page-assist/`.
 - Define shared HTTP and SSE behavior in `contracts/` before implementing
@@ -73,12 +82,42 @@ changes, create a feature branch in the relevant product checkout. Do not use
 - Put orchestration, cross-repository tests, and release composition here.
 - Keep credentials, real user data, and generated artifacts out of Git.
 
+## Local plugin installation and verification
+
+In an existing QwenPaw Python environment:
+
+```bash
+python -m pip install qwenpaw==2.2.2.post1
+qwenpaw plugin install /path/to/qwenpaw-channel-page-assist
+```
+
+For development, install `requirements-dev.txt` from the plugin repository into
+a development environment. From the workspace root, verify against the installed
+release, without a source-path override:
+
+```bash
+env -u PYTHONPATH .venv/bin/python -m pytest -q \
+  qwenpaw-channel-page-assist/tests/test_channel.py
+cd page-assist
+node tests/qwenpaw-channel-browser.mjs
+```
+
+The browser regression requires the built extension and the Page Assist test
+dependencies. `QWENPAW_TEST_PYTHON` overrides the test interpreter;
+`QWENPAW_CHANNEL_DIR` overrides the plugin checkout path.
+Changing the checkout does not change the installed plugin copy. Reinstall with
+`--force` and restart QwenPaw only when deploying a plugin update.
+See the [plugin README](../qwenpaw-channel-page-assist/README.md) for configuration.
+
 See [docs/architecture.md](docs/architecture.md) for the ownership and
 coordination model, and [contracts/README.md](contracts/README.md) for the
 contract authoring guidance.
 
 The full product design and implementation plan is available in
 [English](docs/design.md) and [Chinese](docs/design.zh-CN.md).
+For the first release, the [basic channel profile](contracts/README.md#first-release-basic-channel-profile)
+overrides the full design: one Agent per dedicated in-process listener, with
+durable recovery and browser approval cards deferred.
 
 Chinese versions: [工作区架构](docs/architecture.zh-CN.md) ·
 [共享 API 契约](contracts/README.zh-CN.md).

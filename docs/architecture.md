@@ -9,7 +9,7 @@ Chrome / Page Assist
         │ HTTPS + browser-specific credentials
         ▼
 QwenPaw process
-  ├── Page Assist PawApp module and routes
+  ├── independently installed Page Assist channel (dedicated HTTP listener)
   ├── native sessions, tasks, history, and approvals
   └── selected QwenPaw Agent and its configured tools/memory
 ```
@@ -20,6 +20,9 @@ authorization, tool governance, and approval decisions.
 
 The complete product design and implementation plan is documented in
 [English](design.md) and [Chinese](design.zh-CN.md).
+Those documents describe the broader target; the current
+[basic channel profile](../contracts/README.md#first-release-basic-channel-profile)
+takes precedence for this release.
 
 ## Repository ownership
 
@@ -31,9 +34,17 @@ composition. It must not become a second copy of either product's implementation
 
 ### `qwenpaw/`
 
-Owns the in-process PawApp module, browser-facing routes, scoped authentication,
-Agent allowlisting, conversation mapping, request deduplication and recovery,
-and adapters to QwenPaw's native chat/task/approval services.
+An unmodified upstream source reference. The runtime host is pip-installed
+QwenPaw `2.2.2.post1`; developing and installing the channel does not require
+editing this checkout or building its Console.
+
+### `qwenpaw-channel-page-assist/`
+
+Owns the plugin manifest, dedicated authenticated HTTP/SSE listener, single-Agent
+conversation mapping, in-instance request deduplication, and native BaseChannel /
+TaskTracker integration. History and request state are memory-only; durable
+recovery and browser approval decisions remain deferred. Native approval policy
+is not bypassed. The repository root is directly installable by `qwenpaw plugin install`.
 
 ### `page-assist/`
 
@@ -44,11 +55,15 @@ tests. Existing non-remote Page Assist modes remain independently usable.
 ## Cross-repository workflow
 
 1. Specify request/response/event behavior and error semantics in `contracts/`.
-2. Implement and test the server change in `qwenpaw/`.
+2. Implement and test the channel change in `qwenpaw-channel-page-assist/` against
+   the installed QwenPaw release.
 3. Implement and test the client change in `page-assist/`.
 4. Run the relevant component checks and the workspace-level integration tests.
-5. Push both product commits to accessible forks.
-6. Update the exact revisions in `west.yml` to the tested commits.
+5. Publish the plugin repository and push the browser implementation to accessible
+   remotes when those URLs are available.
+6. Add the plugin project and update the exact revisions in `west.yml` to tested
+   commits available from those remotes. Until then the plugin is a local checkout
+   outside west and the manifest records upstream baselines only.
 7. Commit the manifest and integration-test changes here as the reproducible
    combination.
 

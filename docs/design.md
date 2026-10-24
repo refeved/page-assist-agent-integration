@@ -1,6 +1,14 @@
 # Design for Integrating Page Assist with a Remote QwenPaw Agent
 [简体中文](design.zh-CN.md) | English
 
+> Implementation note (2026-10-24): this document retains the broader design
+> proposal. The implemented first release uses the independently versioned
+> `qwenpaw-channel-page-assist` channel repository with pip-installed QwenPaw,
+> not a PawApp or a host-core modification. The
+> [basic channel profile](../contracts/README.md#first-release-basic-channel-profile)
+> and [current architecture](architecture.md) take precedence for deployment,
+> repository ownership, and supported capabilities.
+
 | Item | Details |
 | --- | --- |
 | Document version | v2.2 |
