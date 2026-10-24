@@ -1,8 +1,9 @@
-# QwenPaw + Page Assist
+# Page Assist Agent Integration
 
 简体中文 | [English](README.md)
 
-本仓库通过一个可复现的 west 工作区，协调 QwenPaw 服务端集成与 Page Assist 浏览器扩展。
+本仓库通过一个可复现的 west 工作区，协调 Page Assist 浏览器扩展与 Agent 宿主适配。
+第一版宿主为 QwenPaw；共享契约保持宿主无关，其他 OpenClaw 类 Agent 可通过适配层接入。
 
 工作区包含四个相互独立的 Git 仓库：
 

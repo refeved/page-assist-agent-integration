@@ -1,9 +1,11 @@
-# QwenPaw + Page Assist
+# Page Assist Agent Integration
 
 [简体中文](README.zh-CN.md) | English
 
-This repository coordinates the QwenPaw server integration and the Page Assist
-browser extension in one reproducible west workspace.
+This repository coordinates the Page Assist browser extension and Agent host
+adapters in one reproducible west workspace. QwenPaw is the first host; the
+shared contract stays host-neutral so other OpenClaw-like Agents can be added
+through adapters.
 
 ## Documentation language policy
 
