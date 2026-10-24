@@ -3,8 +3,9 @@
 
 > Implementation note (2026-10-24): this document retains the broader design
 > proposal. The implemented first release uses the independently versioned
-> `qwenpaw-channel-page-assist` channel repository with pip-installed QwenPaw,
-> not a PawApp or a host-core modification. The
+> [`qwenpaw-channel-page-assist`](https://github.com/refeved/qwenpaw-channel-page-assist)
+> channel repository with pip-installed QwenPaw, not a PawApp or a host-core
+> modification. The
 > [basic channel profile](../contracts/README.md#first-release-basic-channel-profile)
 > and [current architecture](architecture.md) take precedence for deployment,
 > repository ownership, and supported capabilities.

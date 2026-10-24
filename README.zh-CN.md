@@ -11,12 +11,12 @@
 | --- | --- |
 | `integration/` | 本仓库：west 清单、架构、共享 API 契约及跨仓库检查 |
 | `qwenpaw/` | 未修改的 QwenPaw 上游源码参考；运行插件不需要此检出 |
-| `qwenpaw-channel-page-assist/` | 独立安装、在宿主进程内运行的 Page Assist 频道插件 |
+| [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | 独立安装、在宿主进程内运行的 Page Assist 频道插件 |
 | `page-assist/` | Page Assist Fork，包含 QwenPaw 远程访问界面和传输层 |
 
 两个产品检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL 和版本：
 QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`。
-新插件仓库目前仅在本地，尚未配置远程 URL，也未纳入 west；不要向发布清单写入虚构 URL 或只在本地存在的提交。
+插件仓库已发布为 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)，但尚未纳入 west；加入清单时固定到已测试、远程可获取的提交。
 
 ## 稳定版基线
 
@@ -41,8 +41,13 @@ west list
 
 `.west/` 目录会创建在 `integration/` 旁边；两个产品仓库会检出到 `qwenpaw/` 和 `page-assist/`。
 
-`west update` 不会获取独立插件。插件检出应放在同级 `qwenpaw-channel-page-assist/`。
-提供真实远程 URL 后，再将插件加入清单，并将两端固定到已测试、远程可获取的提交。
+`west update` 不会获取独立插件。将插件仓库克隆到同级 `qwenpaw-channel-page-assist/`：
+
+```bash
+git clone https://github.com/refeved/qwenpaw-channel-page-assist.git
+```
+
+插件尚未加入清单；加入时固定到已测试、远程可获取的提交。
 
 在已经初始化的工作区中，修改 `west.yml` 后运行：
 
@@ -82,7 +87,7 @@ node tests/qwenpaw-channel-browser.mjs
 浏览器回归需要已构建的扩展和 Page Assist 测试依赖。
 `QWENPAW_TEST_PYTHON` 可指定测试解释器，`QWENPAW_CHANNEL_DIR` 可指定插件仓库路径。
 修改仓库不会改变宿主管理的已安装插件副本；部署更新时才需要使用 `--force` 重装并重启 QwenPaw。
-配置步骤见插件仓库的 `README.md`（`qwenpaw-channel-page-assist/README.md`）。
+配置步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md)。
 
 完整产品设计与实施计划：[简体中文](docs/design.zh-CN.md) · [English](docs/design.md)。
 第一版采用单 Agent 频道插件及进程内专用监听端口，复杂恢复和审批卡片延期；

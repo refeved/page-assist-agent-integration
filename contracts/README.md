@@ -31,7 +31,8 @@ host adapters; see "Host neutrality and future adapters" below.
 
 The [Chinese profile table](README.zh-CN.md#第一版基础频道-profile) records the
 observable behavior. Payloads follow the [frontend contract](https://github.com/refeved/page-assist-agent-usage/blob/c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad/docs/qwenpaw-remote.md);
-setup is documented in `qwenpaw-channel-page-assist/README.md` in the workspace.
+setup is documented in the plugin repository's
+[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md).
 The first-release plugin is developed and versioned independently of the
 pip-installed QwenPaw host; the upstream source checkout is not required at
 runtime, and later adapters follow the same boundary.

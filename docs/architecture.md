@@ -44,7 +44,8 @@ Owns the plugin manifest, dedicated authenticated HTTP/SSE listener, single-Agen
 conversation mapping, in-instance request deduplication, and native BaseChannel /
 TaskTracker integration. History and request state are memory-only; durable
 recovery and browser approval decisions remain deferred. Native approval policy
-is not bypassed. The repository root is directly installable by `qwenpaw plugin install`.
+is not bypassed. The repository root is directly installable by `qwenpaw plugin install`;
+the remote is [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist).
 
 ### `page-assist/`
 
@@ -59,8 +60,8 @@ tests. Existing non-remote Page Assist modes remain independently usable.
    the installed QwenPaw release.
 3. Implement and test the client change in `page-assist/`.
 4. Run the relevant component checks and the workspace-level integration tests.
-5. Publish the plugin repository and push the browser implementation to accessible
-   remotes when those URLs are available.
+5. Publish verified commits to the plugin repository and the Page Assist fork
+   remotes.
 6. Add the plugin project and update the exact revisions in `west.yml` to tested
    commits available from those remotes. Until then the plugin is a local checkout
    outside west and the manifest records upstream baselines only.

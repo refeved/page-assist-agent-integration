@@ -35,7 +35,8 @@ QwenPaw 进程
 负责插件清单、专用认证 HTTP／SSE 监听、单 Agent 会话映射、实例内请求去重，
 以及原生 BaseChannel／TaskTracker 接入。历史和请求状态仅保存在内存；
 持久恢复和浏览器审批决定延期，不绕过原生审批策略。
-仓库根目录可以直接通过 `qwenpaw plugin install` 安装。
+仓库根目录可以直接通过 `qwenpaw plugin install` 安装；远程仓库为
+[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)。
 
 ### `page-assist/`
 
@@ -47,7 +48,7 @@ QwenPaw 进程
 2. 在 `qwenpaw-channel-page-assist/` 实现频道改动，针对已安装的 QwenPaw 发布版测试。
 3. 在 `page-assist/` 实现并测试客户端改动。
 4. 运行相关组件检查和工作区级集成测试。
-5. 有真实远程 URL 后，发布插件仓库，并将浏览器实现推送到可访问的远程仓库。
+5. 将已验证的提交发布到插件仓库和 Page Assist Fork 的远程分支。
 6. 将插件项目加入 `west.yml`，并固定到已测试且可从远程获取的精确提交。
    在此之前插件为 west 之外的本地检出，清单只记录上游基线。
 7. 在本仓库提交清单和集成测试改动，记录可复现的组合。

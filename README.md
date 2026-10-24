@@ -22,15 +22,16 @@ The workspace contains four independent Git repositories:
 | --- | --- |
 | `integration/` | This repository: west manifest, architecture, shared API contracts, and cross-repository checks |
 | `qwenpaw/` | Unmodified upstream QwenPaw source reference; not required to run the plugin |
-| `qwenpaw-channel-page-assist/` | Independently installed in-process Page Assist channel plugin |
+| [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | Independently installed in-process Page Assist channel plugin |
 | `page-assist/` | Page Assist fork, including the remote QwenPaw UI and transport |
 
 The two product checkouts are west projects, **not Git submodules**. `west.yml`
 records their source URLs and revisions: QwenPaw tracks the official upstream,
 while Page Assist tracks the personal fork `refeved/page-assist-agent-usage`.
-The plugin repository is still local-only and not yet managed by west; no remote
-URL has been assigned. Do not add a fictitious URL or local-only commit to the
-release manifest.
+The plugin repository is published as
+[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)
+but is not yet managed by west; pin it to a tested, remotely available commit
+when adding it to the manifest.
 
 ## Baseline
 
@@ -57,10 +58,15 @@ west list
 The `.west/` directory is created beside `integration/`; the product checkouts
 appear at `qwenpaw/` and `page-assist/`.
 
-`west update` does not fetch the standalone plugin. Place the plugin checkout at
-`qwenpaw-channel-page-assist/` beside these directories. Once a real remote URL
-exists, add the plugin project and pin both implementations to tested, remotely
-available commits.
+`west update` does not fetch the standalone plugin. Clone it at
+`qwenpaw-channel-page-assist/` beside these directories:
+
+```bash
+git clone https://github.com/refeved/qwenpaw-channel-page-assist.git
+```
+
+The plugin is not yet in the manifest; pin it to a tested, remotely available
+commit when adding it.
 
 In this already initialized workspace, update projects after changing `west.yml`
 with:
@@ -110,7 +116,9 @@ dependencies. `QWENPAW_TEST_PYTHON` overrides the test interpreter;
 `QWENPAW_CHANNEL_DIR` overrides the plugin checkout path.
 Changing the checkout does not change the installed plugin copy. Reinstall with
 `--force` and restart QwenPaw only when deploying a plugin update.
-See the plugin repository's `README.md` (`qwenpaw-channel-page-assist/README.md`) for configuration.
+See the plugin repository's
+[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md)
+for configuration.
 
 See [docs/architecture.md](docs/architecture.md) for the ownership and
 coordination model, and [contracts/README.md](contracts/README.md) for the

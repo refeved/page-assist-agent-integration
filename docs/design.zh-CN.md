@@ -3,7 +3,8 @@
 [简体中文](design.zh-CN.md) | [English](design.md)
 
 > 实施说明（2026-10-24）：本文保留更广泛的设计方案。已实现的第一版使用独立版本管理的
-> `qwenpaw-channel-page-assist` 频道仓库和 pip 发布版 QwenPaw，而非 PawApp 或宿主核心修改。
+> [`qwenpaw-channel-page-assist`](https://github.com/refeved/qwenpaw-channel-page-assist)
+> 频道仓库和 pip 发布版 QwenPaw，而非 PawApp 或宿主核心修改。
 > 部署、仓库职责和实际支持能力以[基础频道 profile](../contracts/README.zh-CN.md#第一版基础频道-profile)
 > 及[当前架构](architecture.zh-CN.md)为准。
 
