@@ -13,17 +13,20 @@
 | `qwenpaw-channel-page-assist/` | 独立安装、在宿主进程内运行的 Page Assist 频道插件 |
 | `page-assist/` | Page Assist Fork，包含 QwenPaw 远程访问界面和传输层 |
 
-两个上游检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的上游基线 URL 和版本。
+两个产品检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL 和版本：
+QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`。
 新插件仓库目前仅在本地，尚未配置远程 URL，也未纳入 west；不要向发布清单写入虚构 URL 或只在本地存在的提交。
 
 ## 稳定版基线
 
-清单固定到已分析的稳定版本：
+清单固定到已分析的版本：
 
 - QwenPaw `2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
-- Page Assist `v1.5.88`，提交 `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`
+- Page Assist Fork 提交 `c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad`，
+  基于上游 `v1.5.88`（`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`）
 
-由于尚未提供个人或组织 Fork 的 URL，当前清单使用官方上游地址。在推送产品改动或共享工作区之前，请创建 Fork 并更新 `west.yml` 中的 `url`。确保清单引用的提交可从对应 Fork 获取。
+Page Assist 使用 Fork 地址，使已提交的远程传输和界面改动可复现。
+共享或发布工作区之前，确保清单中的每个提交都能从对应远程获取。
 
 ## 初始化
 
@@ -37,10 +40,8 @@ west list
 
 `.west/` 目录会创建在 `integration/` 旁边；两个产品仓库会检出到 `qwenpaw/` 和 `page-assist/`。
 
-`west update` 不会获取独立插件，也不能复现当前本地 Page Assist 功能分支。
-插件检出应放在同级 `qwenpaw-channel-page-assist/`。提供真实远程 URL 后，
-再将插件加入清单，并将两端固定到已测试、远程可获取的提交。
-在此之前，清单仅复现上游基线。
+`west update` 不会获取独立插件。插件检出应放在同级 `qwenpaw-channel-page-assist/`。
+提供真实远程 URL 后，再将插件加入清单，并将两端固定到已测试、远程可获取的提交。
 
 在已经初始化的工作区中，修改 `west.yml` 后运行：
 
@@ -80,10 +81,18 @@ node tests/qwenpaw-channel-browser.mjs
 浏览器回归需要已构建的扩展和 Page Assist 测试依赖。
 `QWENPAW_TEST_PYTHON` 可指定测试解释器，`QWENPAW_CHANNEL_DIR` 可指定插件仓库路径。
 修改仓库不会改变宿主管理的已安装插件副本；部署更新时才需要使用 `--force` 重装并重启 QwenPaw。
-配置步骤见[插件 README](../qwenpaw-channel-page-assist/README.md)。
+配置步骤见插件仓库的 `README.md`（`qwenpaw-channel-page-assist/README.md`）。
 
 完整产品设计与实施计划：[简体中文](docs/design.zh-CN.md) · [English](docs/design.md)。
 第一版采用单 Agent 频道插件及进程内专用监听端口，复杂恢复和审批卡片延期；
 该阶段对原设计的调整以[基础频道契约](contracts/README.zh-CN.md#第一版基础频道-profile)为准。
 
 参阅[工作区架构](docs/architecture.zh-CN.md)了解职责划分和协作流程；参阅[共享 API 契约](contracts/README.zh-CN.md)了解契约编写规范。
+
+## 许可
+
+本仓库采用 [Apache License 2.0](LICENSE)。
+
+本项目是独立的社区集成，与 Page Assist、QwenPaw 项目无隶属关系，也未获其背书。
+上游组件保留各自许可：Page Assist Fork 仍为 MIT，QwenPaw 为 Apache-2.0，
+Fork 内置的 QwenPaw 爪子图标保留其 Apache-2.0 声明。

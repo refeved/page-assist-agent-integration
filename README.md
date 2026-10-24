@@ -23,22 +23,24 @@ The workspace contains four independent Git repositories:
 | `qwenpaw-channel-page-assist/` | Independently installed in-process Page Assist channel plugin |
 | `page-assist/` | Page Assist fork, including the remote QwenPaw UI and transport |
 
-The two upstream checkouts are west projects, **not Git submodules**. `west.yml`
-records their upstream baseline URLs and revisions. The new plugin repository
-is currently local-only and not yet managed by west; no remote URL has been
-assigned. Do not add a fictitious URL or local-only commit to the release manifest.
+The two product checkouts are west projects, **not Git submodules**. `west.yml`
+records their source URLs and revisions: QwenPaw tracks the official upstream,
+while Page Assist tracks the personal fork `refeved/page-assist-agent-usage`.
+The plugin repository is still local-only and not yet managed by west; no remote
+URL has been assigned. Do not add a fictitious URL or local-only commit to the
+release manifest.
 
 ## Baseline
 
-The manifest pins the analyzed stable releases:
+The manifest pins the analyzed revisions:
 
 - QwenPaw `2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
-- Page Assist `v1.5.88`, commit `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`
+- Page Assist fork commit `c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad`,
+  based on upstream `v1.5.88` (`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`)
 
-The manifest initially uses the official upstream URLs because personal or
-organization fork URLs have not yet been provided. Before pushing product
-changes or sharing this workspace, create forks and update the `url` entries in
-`west.yml`. Keep revisions pinned to commits available from those forks.
+Page Assist uses the fork URL so the committed remote transport and UI changes
+are reproducible. Keep every manifest revision pinned to a commit that is
+available from the configured remote before sharing or publishing the workspace.
 
 ## Initialize
 
@@ -53,11 +55,10 @@ west list
 The `.west/` directory is created beside `integration/`; the product checkouts
 appear at `qwenpaw/` and `page-assist/`.
 
-`west update` does not fetch the standalone plugin or reproduce the current local
-Page Assist feature branch. Place the plugin checkout at
-`qwenpaw-channel-page-assist/` beside these directories. Once real remote URLs
-exist, add the plugin project and pin both implementations to tested, remotely
-available commits. Until then this manifest reproduces upstream baselines only.
+`west update` does not fetch the standalone plugin. Place the plugin checkout at
+`qwenpaw-channel-page-assist/` beside these directories. Once a real remote URL
+exists, add the plugin project and pin both implementations to tested, remotely
+available commits.
 
 In this already initialized workspace, update projects after changing `west.yml`
 with:
@@ -107,7 +108,7 @@ dependencies. `QWENPAW_TEST_PYTHON` overrides the test interpreter;
 `QWENPAW_CHANNEL_DIR` overrides the plugin checkout path.
 Changing the checkout does not change the installed plugin copy. Reinstall with
 `--force` and restart QwenPaw only when deploying a plugin update.
-See the [plugin README](../qwenpaw-channel-page-assist/README.md) for configuration.
+See the plugin repository's `README.md` (`qwenpaw-channel-page-assist/README.md`) for configuration.
 
 See [docs/architecture.md](docs/architecture.md) for the ownership and
 coordination model, and [contracts/README.md](contracts/README.md) for the
@@ -121,3 +122,12 @@ durable recovery and browser approval cards deferred.
 
 Chinese versions: [工作区架构](docs/architecture.zh-CN.md) ·
 [共享 API 契约](contracts/README.zh-CN.md).
+
+## License
+
+This repository is licensed under the [Apache License 2.0](LICENSE).
+
+It is an independent community integration and is not affiliated with or
+endorsed by the Page Assist or QwenPaw projects. Upstream components keep their
+own terms: the Page Assist fork remains MIT, QwenPaw is Apache-2.0, and the
+QwenPaw paw icon bundled by the fork retains its Apache-2.0 notice.

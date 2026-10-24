@@ -214,7 +214,7 @@ Ordinary Page Assist web chat may make multiple model calls for retrieval, quest
 
 ### 5.3 Findings from Reviewing v1.5.88 Source
 
-The local `/home/bixiao/Repo/page-assist` was analyzed read-only. Its working-tree commit is newer than the release tag, but the only difference from the release commit is README. The following code findings apply to the pinned release commit and do not use the `main` branch as the implementation basis.
+A separate local Page Assist checkout was analyzed read-only. Its working-tree commit is newer than the release tag, but the only difference from the release commit is README. The following code findings apply to the pinned release commit and do not use the `main` branch as the implementation basis.
 
 | Verified entry point | Current behavior | Impact on this proposal |
 | --- | --- | --- |

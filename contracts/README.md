@@ -27,8 +27,8 @@ open a dedicated HTTP listener **inside the QwenPaw process** (default
 not the no-separate-Bridge-process requirement.
 
 The [Chinese profile table](README.zh-CN.md#第一版基础频道-profile) records the
-observable behavior. Payloads follow the [frontend contract](../../page-assist/docs/qwenpaw-remote.md);
-setup is documented in the [standalone plugin README](../../qwenpaw-channel-page-assist/README.md).
+observable behavior. Payloads follow the [frontend contract](https://github.com/refeved/page-assist-agent-usage/blob/c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad/docs/qwenpaw-remote.md);
+setup is documented in `qwenpaw-channel-page-assist/README.md` in the workspace.
 The plugin is developed and versioned independently of the pip-installed
 QwenPaw host; the upstream source checkout is not required at runtime.
 

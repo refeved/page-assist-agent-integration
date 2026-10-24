@@ -18,8 +18,8 @@
 允许频道在 **QwenPaw 同一进程中**增加专用 HTTP 监听（默认 `127.0.0.1:8766`）；
 这是对原设计“复用同一端口”的明确阶段性调整，不增加独立服务进程。
 
-协议 v1 载荷沿用 [前端协议说明](../../page-assist/docs/qwenpaw-remote.md)，
-部署步骤见 [独立频道仓库 README](../../qwenpaw-channel-page-assist/README.md)。
+协议 v1 载荷沿用 [前端协议说明](https://github.com/refeved/page-assist-agent-usage/blob/c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad/docs/qwenpaw-remote.md)，
+部署步骤见工作区中的 `qwenpaw-channel-page-assist/README.md`。
 插件独立开发和版本管理，宿主使用 pip 安装的 QwenPaw，运行时不依赖宿主源码检出。
 
 | 项目 | 第一版可观察行为 |
