@@ -25,13 +25,11 @@ The workspace contains four independent Git repositories:
 | [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | Independently installed in-process Page Assist channel plugin |
 | `page-assist/` | Page Assist fork, including the remote QwenPaw UI and transport |
 
-The two product checkouts are west projects, **not Git submodules**. `west.yml`
+The three project checkouts are west projects, **not Git submodules**. `west.yml`
 records their source URLs and revisions: QwenPaw tracks the official upstream,
-while Page Assist tracks the personal fork `refeved/page-assist-agent-usage`.
-The plugin repository is published as
-[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)
-but is not yet managed by west; pin it to a tested, remotely available commit
-when adding it to the manifest.
+Page Assist tracks the personal fork `refeved/page-assist-agent-usage`, and the
+plugin tracks
+[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist).
 
 ## Baseline
 
@@ -40,6 +38,7 @@ The manifest pins the analyzed revisions:
 - QwenPaw `2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
 - Page Assist fork commit `c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad`,
   based on upstream `v1.5.88` (`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`)
+- Plugin commit `093c3b0a521313efa422dda84b1763219a5ced54`
 
 Page Assist uses the fork URL so the committed remote transport and UI changes
 are reproducible. Keep every manifest revision pinned to a commit that is
@@ -55,18 +54,12 @@ west update
 west list
 ```
 
-The `.west/` directory is created beside `integration/`; the product checkouts
-appear at `qwenpaw/` and `page-assist/`.
+The `.west/` directory is created beside `integration/`; the three project
+checkouts appear at `qwenpaw/`, `page-assist/`, and
+`qwenpaw-channel-page-assist/`.
 
-`west update` does not fetch the standalone plugin. Clone it at
-`qwenpaw-channel-page-assist/` beside these directories:
-
-```bash
-git clone https://github.com/refeved/qwenpaw-channel-page-assist.git
-```
-
-The plugin is not yet in the manifest; pin it to a tested, remotely available
-commit when adding it.
+`west update` also fetches the plugin repository and checks out the pinned
+commit.
 
 In this already initialized workspace, update projects after changing `west.yml`
 with:

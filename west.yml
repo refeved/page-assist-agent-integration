@@ -12,5 +12,10 @@ manifest:
       revision: c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad
       path: page-assist
 
+    - name: qwenpaw-channel-page-assist
+      url: https://github.com/refeved/qwenpaw-channel-page-assist.git
+      revision: 093c3b0a521313efa422dda84b1763219a5ced54
+      path: qwenpaw-channel-page-assist
+
   self:
     path: integration

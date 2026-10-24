@@ -62,9 +62,8 @@ tests. Existing non-remote Page Assist modes remain independently usable.
 4. Run the relevant component checks and the workspace-level integration tests.
 5. Publish verified commits to the plugin repository and the Page Assist fork
    remotes.
-6. Add the plugin project and update the exact revisions in `west.yml` to tested
-   commits available from those remotes. Until then the plugin is a local checkout
-   outside west and the manifest records upstream baselines only.
+6. Pin the plugin, QwenPaw, and Page Assist revisions in `west.yml` to tested
+   commits available from those remotes.
 7. Commit the manifest and integration-test changes here as the reproducible
    combination.
 

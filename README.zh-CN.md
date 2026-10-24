@@ -14,9 +14,9 @@
 | [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | 独立安装、在宿主进程内运行的 Page Assist 频道插件 |
 | `page-assist/` | Page Assist Fork，包含 QwenPaw 远程访问界面和传输层 |
 
-两个产品检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL 和版本：
-QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`。
-插件仓库已发布为 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)，但尚未纳入 west；加入清单时固定到已测试、远程可获取的提交。
+三个项目检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL 和版本：
+QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`，
+插件指向 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)。
 
 ## 稳定版基线
 
@@ -25,6 +25,7 @@ QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-
 - QwenPaw `2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
 - Page Assist Fork 提交 `c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad`，
   基于上游 `v1.5.88`（`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`）
+- 插件提交 `093c3b0a521313efa422dda84b1763219a5ced54`
 
 Page Assist 使用 Fork 地址，使已提交的远程传输和界面改动可复现。
 共享或发布工作区之前，确保清单中的每个提交都能从对应远程获取。
@@ -39,15 +40,10 @@ west update
 west list
 ```
 
-`.west/` 目录会创建在 `integration/` 旁边；两个产品仓库会检出到 `qwenpaw/` 和 `page-assist/`。
+`.west/` 目录会创建在 `integration/` 旁边；三个项目会检出到 `qwenpaw/`、`page-assist/`
+和 `qwenpaw-channel-page-assist/`。
 
-`west update` 不会获取独立插件。将插件仓库克隆到同级 `qwenpaw-channel-page-assist/`：
-
-```bash
-git clone https://github.com/refeved/qwenpaw-channel-page-assist.git
-```
-
-插件尚未加入清单；加入时固定到已测试、远程可获取的提交。
+`west update` 会同时拉取插件仓库，并检出清单固定的提交。
 
 在已经初始化的工作区中，修改 `west.yml` 后运行：
 
