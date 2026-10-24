@@ -1,0 +1,16 @@
+manifest:
+  version: "0.13"
+
+  projects:
+    - name: qwenpaw
+      url: https://github.com/agentscope-ai/QwenPaw.git
+      revision: b6715daabaa4f966626317452980fb84b8be9ab9
+      path: qwenpaw
+
+    - name: page-assist
+      url: https://github.com/n4ze3m/page-assist.git
+      revision: ad6ef90a9b4b860bbdfc81ee82111c8e04502c65
+      path: page-assist
+
+  self:
+    path: integration
