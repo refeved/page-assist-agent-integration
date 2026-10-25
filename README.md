@@ -23,7 +23,7 @@ The workspace contains four independent Git repositories:
 | `integration/` | This repository: west manifest, architecture, shared API contracts, and cross-repository checks |
 | `qwenpaw/` | Unmodified upstream QwenPaw source reference; not required to run the plugin |
 | [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | Independently installed in-process Page Assist channel plugin |
-| `page-assist/` | Page Assist fork, including the remote QwenPaw UI and transport |
+| `page-assist/` | Page Assist fork, including the Remote Agent provider UI and transport; QwenPaw is the first backend |
 
 The three project checkouts are west projects, **not Git submodules**. `west.yml`
 records their source URLs and revisions: QwenPaw tracks the official upstream,
@@ -46,15 +46,40 @@ exact verification. Page Assist uses the fork URL so the tagged remote transport
 and UI changes are reproducible. Keep every manifest tag and commit available
 from the configured remote before sharing or publishing the workspace.
 
+## Remote Agent UI
+
+The browser exposes the remote path as **Remote Agent**, alongside **Local models**.
+QwenPaw is the first backend implementation, not the provider name; protocol and
+storage identifiers retain the `qwenpaw` namespace. The switch sits in the
+side-panel header after the Page Assist wordmark. The standalone Web UI keeps its
+existing local send path. When no provider has been chosen and no Ollama URL is
+saved, a provider chooser opens the connection form inline; later configuration
+lives in the dedicated Remote Agent tab in both the options page and side-panel
+settings. No Ollama configuration is required for this path.
+
+![Remote Agent tab in the side-panel settings](docs/assets/page-assist-remote-agent-settings-tab.png)
+
+The side-panel settings bar shows Remote Agent beside General Settings, OpenAI
+Compatible API, and Manage Models. The screenshot uses the Chinese UI; component
+and protocol names stay in English.
+
+Remote Agent supports text chat, explicit webpage or selection sharing, in-instance
+conversation history, and new chats. Local-only features such as RAG, web search,
+MCP, prompts, temporary chat, per-chat model settings, file or image upload,
+vision/OCR, speech, Page Action, and WebMCP are not available in the remote view.
+Firefox does not expose Remote Agent; use a Chromium browser. See the fork's
+[Remote Agent guide](https://github.com/refeved/page-assist-agent-usage/blob/feat/qwenpaw-remote-channel/docs/qwenpaw-remote.md)
+for current UI and protocol details.
+
 ## Runtime
 
-The Page Assist side panel connected to a remote QwenPaw Agent and holding a
-multi-turn conversation while browsing:
+The Page Assist side panel connected to a Remote Agent (QwenPaw backend) and
+holding a multi-turn conversation while browsing:
 
-![Page Assist side panel connected to a QwenPaw Agent](docs/assets/page-assist-qwenpaw-sidepanel.png)
+![Page Assist side panel connected to a Remote Agent](docs/assets/page-assist-remote-agent-sidepanel.png)
 
-Agent names and conversation content in the screenshot are for demonstration
-only.
+Captured from the v0.1.0 release set while browsing GitHub. Agent names and
+conversation content are for demonstration only.
 
 ## Initialize
 
@@ -122,7 +147,7 @@ dependencies. `QWENPAW_TEST_PYTHON` overrides the test interpreter;
 Changing the checkout does not change the installed plugin copy. Reinstall with
 `--force` and restart QwenPaw only when deploying a plugin update.
 See the plugin repository's
-[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/remote-agent-preview-1/README.md)
+[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/main/README.md)
 for configuration.
 
 See [docs/architecture.md](docs/architecture.md) for the ownership and

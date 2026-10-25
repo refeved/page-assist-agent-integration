@@ -13,6 +13,11 @@
 > v0.1.0 (2026-10-25): QwenPaw uses `v2.2.2.post1`, while Page Assist and the
 > plugin use `remote-agent-preview-1`. This is the first runnable preview and does
 > not mean the full design has passed runtime acceptance.
+>
+> The browser UI names this provider **Remote Agent**; QwenPaw is its first backend.
+> Historical "QwenPaw mode" references below mean that provider. The preview reuses
+> the native header/composer layout and `provider-capabilities.ts` capability gating
+> without mounting the local message controller.
 
 | Item | Details |
 | --- | --- |
@@ -199,11 +204,11 @@ Reuse stable startup/shutdown hooks and explicitly track module background tasks
 | Body and text-selection extraction | Reuse |
 | Local chat list and cache | Add remote binding and recovery state |
 | Ordinary model providers | Preserve existing behavior |
-| QwenPaw Remote mode | Add a separate transport branch |
+| Remote Agent provider | Add a separate transport branch; QwenPaw is the first backend |
 | Agent selection and context card | Add |
 | Approval display and event recovery | Adapt to QwenPaw native semantics |
 
-In QwenPaw mode:
+In Remote Agent mode:
 
 - Replace “model selection” with authorized Agent selection; do not override underlying model or tool configuration.
 - Do not call Page Assist local Agents, MCP, or local memory.
@@ -213,7 +218,7 @@ In QwenPaw mode:
 
 ### 5.2 Bypass the Existing Web Q&A Chain
 
-Ordinary Page Assist web chat may make multiple model calls for retrieval, question rewriting, and the final answer. QwenPaw mode must not simply replace the model in this chain: internal rewriting tasks could trigger multiple Agent executions and pollute history.
+Ordinary Page Assist web chat may make multiple model calls for retrieval, question rewriting, and the final answer. Remote Agent mode must not simply replace the model in this chain: internal rewriting tasks could trigger multiple Agent executions and pollute history.
 
 ```text
 用户问题 + 已确认快照

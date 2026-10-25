@@ -27,12 +27,15 @@ targets QwenPaw as its host: the channel may open a dedicated HTTP listener
 **inside the QwenPaw process** (default `127.0.0.1:8766`). This intentionally
 relaxes the original same-port requirement, not the no-separate-Bridge-process
 requirement. Other OpenClaw-like Agents join the same contract through their own
-host adapters; see "Host neutrality and future adapters" below.
+host adapters; see "Host neutrality and future adapters" below. The browser UI
+exposes this remote path as **Remote Agent**; QwenPaw is the first backend, not
+the provider name.
 
 The [Chinese profile table](README.zh-CN.md#第一版基础频道-profile) records the
-observable behavior. Payloads follow the [frontend contract](https://github.com/refeved/page-assist-agent-usage/blob/c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad/docs/qwenpaw-remote.md);
+observable behavior. Payloads follow the
+[Remote Agent frontend contract](https://github.com/refeved/page-assist-agent-usage/blob/feat/qwenpaw-remote-channel/docs/qwenpaw-remote.md);
 setup is documented in the plugin repository's
-[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md).
+[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/main/README.md).
 The first-release plugin is developed and versioned independently of the
 pip-installed QwenPaw host; the upstream source checkout is not required at
 runtime, and later adapters follow the same boundary.

@@ -12,7 +12,7 @@
 | `integration/` | 本仓库：west 清单、架构、共享 API 契约及跨仓库检查 |
 | `qwenpaw/` | 未修改的 QwenPaw 上游源码参考；运行插件不需要此检出 |
 | [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | 独立安装、在宿主进程内运行的 Page Assist 频道插件 |
-| `page-assist/` | Page Assist Fork，包含 QwenPaw 远程访问界面和传输层 |
+| `page-assist/` | Page Assist Fork，包含 Remote Agent Provider 界面和传输层；QwenPaw 是首个后端 |
 
 三个项目检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL 和版本：
 QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`，
@@ -31,13 +31,34 @@ QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-
 使已打 tag 的远程传输和界面改动可复现。共享或发布工作区之前，确保清单中的每个 tag
 和提交都能从对应远程获取。
 
+## Remote Agent 界面
+
+浏览器把远程路径显示为 **Remote Agent**，与 **Local models** 并列。QwenPaw 是首个
+后端实现，不是 Provider 名称；协议和存储标识继续使用 `qwenpaw` 命名空间。切换器位于
+侧边栏 header 的 Page Assist 字样之后；独立 Web UI 不新增远程发送入口，仍使用原有
+本地发送路径。本地既没有 provider 记录、也没有保存过 Ollama URL 时，界面显示 Provider
+选择，并在选中后内联展开连接表单；之后可在 options 和侧栏设置的独立 Remote Agent Tab
+中配置。该路径不需要 Ollama 配置。
+
+![侧栏设置中的 Remote Agent Tab](docs/assets/page-assist-remote-agent-settings-tab.png)
+
+侧栏设置的 Tab 栏中，Remote Agent 与 General Settings、OpenAI Compatible API 和
+Manage Models 并列。截图为中文界面，组件与协议名称保持英文。
+
+Remote Agent 支持文字聊天、显式网页／选区分享、当前实例内的会话历史和新建会话；
+本地 RAG、联网搜索、MCP、提示词、临时聊天、逐会话模型参数、文件／图片上传、
+视觉／OCR、语音、Page Action 和 WebMCP 在远程界面中不提供。Firefox 不显示
+Remote Agent 入口，请使用 Chromium 浏览器。当前界面与协议细节见 Fork 的
+[Remote Agent 指南](https://github.com/refeved/page-assist-agent-usage/blob/feat/qwenpaw-remote-channel/docs/qwenpaw-remote.md)。
+
 ## 运行效果
 
-Page Assist 侧边栏已连接远程 QwenPaw Agent，并可在网页浏览过程中进行多轮对话：
+Page Assist 侧边栏已连接 Remote Agent（QwenPaw 后端），并可在网页浏览过程中进行多轮对话：
 
-![Page Assist 侧边栏连接 QwenPaw Agent](docs/assets/page-assist-qwenpaw-sidepanel.png)
+![Page Assist 侧边栏连接 Remote Agent](docs/assets/page-assist-remote-agent-sidepanel.png)
 
-截图中的 Agent 名称和对话内容仅用于演示。
+截图来自 v0.1.0 发布组合，拍摄于浏览 GitHub 页面时。截图中的 Agent 名称和对话内容
+仅用于演示。
 
 ## 初始化
 
@@ -92,7 +113,7 @@ node tests/qwenpaw-channel-browser.mjs
 浏览器回归需要已构建的扩展和 Page Assist 测试依赖。
 `QWENPAW_TEST_PYTHON` 可指定测试解释器，`QWENPAW_CHANNEL_DIR` 可指定插件仓库路径。
 修改仓库不会改变宿主管理的已安装插件副本；部署更新时才需要使用 `--force` 重装并重启 QwenPaw。
-配置步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/remote-agent-preview-1/README.md)。
+配置步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/main/README.md)。
 
 完整产品设计与实施计划：[简体中文](docs/design.zh-CN.md) · [English](docs/design.md)。
 第一版采用单 Agent 频道插件及进程内专用监听端口，复杂恢复和审批卡片延期；

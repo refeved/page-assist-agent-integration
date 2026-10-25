@@ -16,7 +16,9 @@ QwenPaw process
 
 There is no separately deployed Bridge and no second Agent loop. The browser
 extension is a client; QwenPaw remains responsible for Agent execution,
-authorization, tool governance, and approval decisions.
+authorization, tool governance, and approval decisions. The extension presents
+this remote path as **Remote Agent**, alongside **Local models**; QwenPaw is the
+first backend implementation, not the provider name.
 
 The complete product design and implementation plan is documented in
 [English](design.md) and [Chinese](design.zh-CN.md).
@@ -49,9 +51,10 @@ the remote is [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/q
 
 ### `page-assist/`
 
-Owns the remote QwenPaw view and settings, page snapshot preview, client
+Owns the Remote Agent provider UI and settings, page snapshot preview, client
 transport/SSE handling, remote conversation state, approval UI, and browser-side
-tests. Existing non-remote Page Assist modes remain independently usable.
+tests. QwenPaw is the first backend. Existing non-remote Page Assist modes remain
+independently usable.
 
 ## Cross-repository workflow
 

@@ -14,7 +14,7 @@ QwenPaw 进程
   └── 所选 QwenPaw Agent 及其配置的工具／记忆
 ```
 
-不单独部署 Bridge，也不运行第二套 Agent 循环。浏览器扩展是客户端；QwenPaw 继续负责 Agent 执行、授权、工具治理和审批决定。
+不单独部署 Bridge，也不运行第二套 Agent 循环。浏览器扩展是客户端；QwenPaw 继续负责 Agent 执行、授权、工具治理和审批决定。扩展把该远程路径显示为 **Remote Agent**，与 **Local models** 并列；QwenPaw 是首个后端实现，不是 Provider 名称。
 
 完整的产品设计与实施计划见[简体中文版](design.zh-CN.md)和[英文版](design.md)。
 这些文档描述更广泛的目标；本版本以[基础频道 profile](../contracts/README.zh-CN.md#第一版基础频道-profile)为准。
@@ -40,7 +40,7 @@ QwenPaw 进程
 
 ### `page-assist/`
 
-负责 QwenPaw 远程界面和设置、网页快照预览、客户端传输／SSE 处理、远程会话状态、审批界面和浏览器端测试。Page Assist 现有的非远程模式仍应独立可用。
+负责 Remote Agent Provider 界面和设置、网页快照预览、客户端传输／SSE 处理、远程会话状态、审批界面和浏览器端测试；QwenPaw 是首个后端。Page Assist 现有的非远程模式仍应独立可用。
 
 ## 跨仓库协作流程
 

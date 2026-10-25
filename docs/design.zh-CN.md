@@ -10,6 +10,10 @@
 >
 > v0.1.0（2026-10-25）：QwenPaw 使用 `v2.2.2.post1`，Page Assist 与插件使用
 > `remote-agent-preview-1`。这是首个可运行预览，不代表完整设计已通过运行验收。
+>
+> 界面中的 Provider 名称为 **Remote Agent**，QwenPaw 是首个后端实现；下文历史性的
+> “QwenPaw 模式”均指该 Provider。预览复用原生 header／composer 布局，并由
+> `provider-capabilities.ts` 统一判定能力，不挂载本地消息控制器。
 
 | 项目 | 内容 |
 | --- | --- |
@@ -195,11 +199,11 @@ QwenPaw 进程
 | 正文、选区提取 | 复用 |
 | 本地聊天列表与缓存 | 增加远程绑定和恢复状态 |
 | 普通模型提供商 | 保留原行为 |
-| QwenPaw Remote 模式 | 新增独立 transport 分支 |
+| Remote Agent Provider | 新增独立 transport 分支；QwenPaw 是首个后端 |
 | Agent 选择、上下文卡片 | 新增 |
 | 审批展示与事件恢复 | 适配 QwenPaw 原生语义 |
 
-QwenPaw 模式中：
+Remote Agent 模式中：
 
 - “模型选择”改为授权 Agent 选择，不允许覆盖底层模型和工具配置。
 - 不调用 Page Assist 本地 Agent、MCP 或本地记忆。
@@ -209,7 +213,7 @@ QwenPaw 模式中：
 
 ### 5.2 绕过原网页问答链
 
-Page Assist 普通网页聊天可能包含检索、问题改写和最终回答等多次模型调用。QwenPaw 模式不能简单替换其中的模型，否则内部改写任务可能产生多次 Agent 执行并污染历史。
+Page Assist 普通网页聊天可能包含检索、问题改写和最终回答等多次模型调用。Remote Agent 模式不能简单替换其中的模型，否则内部改写任务可能产生多次 Agent 执行并污染历史。
 
 ```text
 用户问题 + 已确认快照

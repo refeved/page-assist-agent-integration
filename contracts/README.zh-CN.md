@@ -18,9 +18,10 @@
 第一版宿主为 QwenPaw：频道在 **QwenPaw 同一进程中**增加专用 HTTP 监听（默认 `127.0.0.1:8766`）；
 这是对原设计“复用同一端口”的明确阶段性调整，不增加独立服务进程。
 其他 OpenClaw 类 Agent 通过各自的宿主适配层接入同一契约，见“宿主无关性与后续适配”。
+浏览器把该远程路径显示为 **Remote Agent**；QwenPaw 是首个后端实现，不是 Provider 名称。
 
-协议 v1 载荷沿用 [前端协议说明](https://github.com/refeved/page-assist-agent-usage/blob/c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad/docs/qwenpaw-remote.md)，
-部署步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md)。
+协议 v1 载荷沿用 [Remote Agent 前端契约](https://github.com/refeved/page-assist-agent-usage/blob/feat/qwenpaw-remote-channel/docs/qwenpaw-remote.md)，
+部署步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/main/README.md)。
 第一版插件独立开发和版本管理，宿主使用 pip 安装的 QwenPaw，运行时不依赖宿主源码检出；
 后续适配层遵循相同边界。
 
