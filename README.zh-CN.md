@@ -39,8 +39,8 @@ QwenPaw Agent 对话，网页内容由你显式选择后才发送。
 
 ![Page Assist 侧边栏连接 Remote Agent](docs/assets/page-assist-remote-agent-sidepanel.png)
 
-截图来自 v0.1.0 发布组合，拍摄于浏览 GitHub 页面时。截图中的 Agent 名称和对话内容
-仅用于演示。
+截图来自 v0.1.0 发布组合，拍摄于浏览 GitHub 页面时；v0.1.1 布局相同，但侧栏用
+配置的 Agent 名称标识回复。截图中的 Agent 名称和对话内容仅用于演示。
 
 ## 亮点
 
@@ -174,6 +174,19 @@ bun run build:chrome
 各项目会以 detached HEAD 检出固定提交。
 
 ## 发布基线
+
+tag `v0.1.1` 是当前发布组合。它位于 `release/v0.1.1` 分支，该分支的 `west.yml`
+把每个 project 固定到 tag；`main` 继续跟踪开发引用：
+
+- QwenPaw `v2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist Fork tag `agent-usage-v0.1.1`，提交
+  `5a384102379caf2beff86400140c0217fa813920`
+- 插件 tag `qwenpaw-channel-page-assist-v0.1.1`，提交
+  `fe06550af6c269fbcd15700321ff8747a879b60c`
+
+v0.1.1 是上述发布分支流程产出的首个组合：侧栏回复用配置的 Agent 名称标识，
+不再使用固定标签。运行该组合时检出 `release/v0.1.1` 或 `v0.1.1` tag，
+再执行 `west update`。
 
 tag `v0.1.0` 记录首个发布组合。它早于发布分支流程，因此仅由该 tag 标识：
 

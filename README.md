@@ -51,7 +51,8 @@ while browsing:
 
 ![Page Assist side panel connected to a Remote Agent](docs/assets/page-assist-remote-agent-sidepanel.png)
 
-Captured from the v0.1.0 release set while browsing GitHub. Agent names and
+Captured from the v0.1.0 release set while browsing GitHub; v0.1.1 keeps the
+same layout but labels replies with the configured Agent name. Agent names and
 conversation content are for demonstration only.
 
 ## Highlights
@@ -203,6 +204,20 @@ To reproduce a released set, check out its tag here and run `west update`; each
 project checks out the pinned commit in detached HEAD.
 
 ## Release baseline
+
+Tag `v0.1.1` is the current release set. It lives on the `release/v0.1.1`
+branch, whose `west.yml` pins every project to a tag; `main` keeps tracking
+development refs:
+
+- QwenPaw `v2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist fork tag `agent-usage-v0.1.1`, commit
+  `5a384102379caf2beff86400140c0217fa813920`
+- Plugin tag `qwenpaw-channel-page-assist-v0.1.1`, commit
+  `fe06550af6c269fbcd15700321ff8747a879b60c`
+
+v0.1.1 is the first set produced by the release-branch workflow above. It labels
+side-panel replies with the configured Agent name instead of a fixed label. To run
+it, check out `release/v0.1.1` or the `v0.1.1` tag, then rerun `west update`.
 
 Tag `v0.1.0` is the first released combination. It predates the release-branch
 workflow, so the tag alone identifies it:

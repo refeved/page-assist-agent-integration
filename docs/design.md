@@ -14,6 +14,11 @@
 > plugin use `remote-agent-preview-1`. This is the first runnable preview and does
 > not mean the full design has passed runtime acceptance.
 >
+> v0.1.1 (2026-10-25): Page Assist and the plugin move to `agent-usage-v0.1.1`
+> and `qwenpaw-channel-page-assist-v0.1.1`, composed on the integration
+> `release/v0.1.1` branch while `main` tracks development branches. The side panel
+> labels replies with the configured Agent name.
+>
 > The browser UI names this provider **Remote Agent**; QwenPaw is its first backend.
 > Historical "QwenPaw mode" references below mean that provider. The preview reuses
 > the native header/composer layout and `provider-capabilities.ts` capability gating
@@ -23,21 +28,23 @@
 | --- | --- |
 | Document version | v2.2 |
 | Date | 2026-10-23 |
-| Status | Design proposal; the v0.1.0 preview is implemented, while the full design still needs runtime acceptance |
+| Status | Design proposal; the v0.1.1 preview is implemented, while the full design still needs runtime acceptance |
 | Target platform | Google Chrome, Manifest V3 |
 | Frontend foundation | Lightweight Page Assist fork |
-| Frontend development baseline | Upstream Official Release `v1.5.88`, 2026-10-18; commit `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`; integration tag `remote-agent-preview-1`, commit `c9eddc0d236bc58944bb0613ec317dd12d548bf1` |
+| Frontend development baseline | Upstream Official Release `v1.5.88`, 2026-10-18; commit `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`; integration release tag `agent-usage-v0.1.1`, commit `5a384102379caf2beff86400140c0217fa813920` |
 | Server foundation | QwenPaw stable native Agent, PawApp, and PluginApi |
 | Deployment | Integration module runs inside the QwenPaw process; no separately deployed relay service |
 | Core capabilities | Web-page context sharing, Agent selection, memory-aware chat, native tool approval |
 | Development and deployment baseline | Official stable Release `v2.2.2.post1`, released 2026-10-22; commit `b6715daabaa4f966626317452980fb84b8be9ab9` |
 
-Pin QwenPaw to `qwenpaw==2.2.2.post1` or the commit above. Page Assist uses fork tag
-`remote-agent-preview-1` (commit `c9eddc0d236bc58944bb0613ec317dd12d548bf1`), whose upstream
-baseline is `v1.5.88` and its `bun.lockb`. v0.1.0 intentionally uses this preview tag;
-otherwise do not use prereleases, development branches, or a floating `latest`. QwenPaw
-was selected from an official Release with `draft: false` and `prerelease: false`; any
-later stable-version upgrade must be separately verified and the baseline updated.
+Pin QwenPaw to `qwenpaw==2.2.2.post1` or the commit above. v0.1.1 uses fork tag
+`agent-usage-v0.1.1` (commit `5a384102379caf2beff86400140c0217fa813920`) and plugin tag
+`qwenpaw-channel-page-assist-v0.1.1` (commit `fe06550af6c269fbcd15700321ff8747a879b60c`);
+the v0.1.0 preview used `remote-agent-preview-1` on the fork above upstream `v1.5.88`
+and its `bun.lockb`. Otherwise do not use prereleases, development branches, or a
+floating `latest`. QwenPaw was selected from an official Release with `draft: false`
+and `prerelease: false`; any later stable-version upgrade must be separately verified
+and the baseline updated.
 Integration `main` tracks development refs; these pins define released combinations
 composed on their `release/vX.Y.Z` branch.
 
@@ -784,7 +791,7 @@ Retain ordinary model mode; do not send internal steps of the existing web Q&A c
 
 ### Phase 4: End-to-End and Regression Testing
 
-Validate the entire path using real Chrome and the target deployment, and record configuration, versions, supported approval types, and recovery boundaries. Update the status to full design acceptance only after passing the acceptance below; source review or the existence of an API is not runtime evidence. The v0.1.0 preview covers only the basic channel path.
+Validate the entire path using real Chrome and the target deployment, and record configuration, versions, supported approval types, and recovery boundaries. Update the status to full design acceptance only after passing the acceptance below; source review or the existence of an API is not runtime evidence. The v0.1.1 preview covers only the basic channel path.
 
 Frontend validation uses existing release-project tools; do not introduce a new test framework first:
 
