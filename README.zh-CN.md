@@ -18,17 +18,34 @@
 QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`，
 插件指向 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)。
 
-## v0.1.0 集成基线
+## 分支与发布
 
-`v0.1.0` 清单固定到以下发布组合：
+`main` 是开发主线，其 `west.yml` 跟踪各项目的活跃开发引用：Page Assist 跟踪
+`feat/qwenpaw-remote-channel`，插件跟踪 `main`，QwenPaw 固定在发布 tag `v2.2.2.post1`。
+`west update` 会直接检出这些分支，因此请先在项目仓库提交并推送，再更新清单。
+
+版本号在独立的发布分支上产生，而不是在 `main` 上改 revision：
+
+1. 从已验证的 `main` 提交创建 `release/vX.Y.Z`。
+2. 在该分支把 `west.yml` 中每个 project 固定到可从远程获取的发布 tag 或提交，
+   并在下方「发布基线」中列出 tag 与提交哈希。
+3. 为该分支打 `vX.Y.Z` tag，推送分支和 tag。
+4. `main` 保持跟踪开发引用。
+
+revision 为分支时检出分支，为 tag 或提交时处于 detached HEAD。复现某个发布组合时，
+在本仓库检出对应 tag 后运行 `west update`。
+
+## 发布基线
+
+tag `v0.1.0` 记录首个发布组合。它早于发布分支流程，因此仅由该 tag 标识：
 
 - QwenPaw `v2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
 - Page Assist Fork tag `remote-agent-preview-1`，提交 `c9eddc0d236bc58944bb0613ec317dd12d548bf1`，
   基于上游 `v1.5.88`（`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`）
 - 插件 tag `remote-agent-preview-1`，提交 `093c3b0a521313efa422dda84b1763219a5ced54`
 
-清单使用 tag 标识发布组合，提交哈希用于精确核对。Page Assist 使用 Fork 地址，
-使已打 tag 的远程传输和界面改动可复现。共享或发布工作区之前，确保清单中的每个 tag
+发布组合使用 tag 标识各组件，提交哈希用于精确核对。Page Assist 使用 Fork 地址，
+使已打 tag 的远程传输和界面改动可复现。共享或发布工作区之前，确保每个 tag
 和提交都能从对应远程获取。
 
 ## Remote Agent 界面
@@ -73,7 +90,7 @@ west list
 `.west/` 目录会创建在 `integration/` 旁边；三个项目会检出到 `qwenpaw/`、`page-assist/`
 和 `qwenpaw-channel-page-assist/`。
 
-`west update` 会同时拉取插件仓库，并检出清单固定的提交。
+`west update` 会同时拉取插件仓库，并检出清单指定的 revision。
 
 在已经初始化的工作区中，修改 `west.yml` 后运行：
 
@@ -81,7 +98,7 @@ west list
 west update
 ```
 
-west 会以 detached HEAD 状态检出清单指定的提交。修改产品仓库之前，请先在相应检出目录创建功能分支。不要用 `west update` 管理未提交的工作。
+revision 为分支时 west 检出对应分支，为 tag 或提交时处于 detached HEAD。`main` 跟踪开发分支，请先在项目仓库提交并推送，再运行 `west update`。不要用 `west update` 管理未提交的工作。
 
 ## 开发职责边界
 

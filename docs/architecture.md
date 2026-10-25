@@ -65,14 +65,16 @@ independently usable.
 4. Run the relevant component checks and the workspace-level integration tests.
 5. Publish verified commits to the plugin repository and the Page Assist fork
    remotes.
-6. Pin the plugin, QwenPaw, and Page Assist revisions in `west.yml` to tested
-   commits available from those remotes.
+6. Follow the verified development refs from `main` in `west.yml`.
 7. Commit the manifest and integration-test changes here as the reproducible
-   combination.
+   combination. Compose a released version on its own `release/vX.Y.Z` branch:
+   pin every project to a tag or commit available from its remote, then tag the
+   branch.
 
 West coordinates repository locations and revisions; it does not provide a
 cross-repository transaction or replace each project's dependency manager.
-Avoid tracking floating branches in release manifests.
+`main` tracks development refs; released manifests pin immutable tags or commits
+on their release branch.
 
 ## Security and local data
 

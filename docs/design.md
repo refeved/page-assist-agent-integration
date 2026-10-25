@@ -38,6 +38,8 @@ baseline is `v1.5.88` and its `bun.lockb`. v0.1.0 intentionally uses this previe
 otherwise do not use prereleases, development branches, or a floating `latest`. QwenPaw
 was selected from an official Release with `draft: false` and `prerelease: false`; any
 later stable-version upgrade must be separately verified and the baseline updated.
+Integration `main` tracks development refs; these pins define released combinations
+composed on their `release/vX.Y.Z` branch.
 
 This version replaces the v1.1 OpenClaw proposal. To preserve existing repository links, the project directory temporarily retains the historical name `page-assist-openclaw`; this does not mean OpenClaw still needs to be deployed.
 

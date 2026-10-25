@@ -31,9 +31,31 @@ Page Assist tracks the personal fork `refeved/page-assist-agent-usage`, and the
 plugin tracks
 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist).
 
-## v0.1.0 Baseline
+## Branches and releases
 
-The `v0.1.0` manifest pins the following release set:
+`main` is the development line. Its `west.yml` follows active development refs:
+Page Assist tracks `feat/qwenpaw-remote-channel`, the plugin tracks `main`, and
+QwenPaw stays on the released tag `v2.2.2.post1`. `west update` checks those
+branches out directly, so commit and push in the project checkout before
+updating the manifest.
+
+Cut a version on its own release branch instead of retargeting `main`:
+
+1. Create `release/vX.Y.Z` from the validated `main` commit.
+2. On that branch, pin every project in `west.yml` to a release tag or commit
+   available from its remote, and list the tags and commit hashes under
+   "Release baseline" below.
+3. Tag the branch `vX.Y.Z`, then push the branch and the tag.
+4. Leave `main` on its development refs.
+
+Branch revisions check out as branches; tag and commit revisions check out as
+detached HEAD. Reproduce a released set by checking out its tag here and running
+`west update`.
+
+## Release baseline
+
+Tag `v0.1.0` is the first released combination. It predates the release-branch
+workflow, so the tag alone identifies it:
 
 - QwenPaw `v2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
 - Page Assist fork tag `remote-agent-preview-1`, commit
@@ -41,10 +63,10 @@ The `v0.1.0` manifest pins the following release set:
   (`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`)
 - Plugin tag `remote-agent-preview-1`, commit `093c3b0a521313efa422dda84b1763219a5ced54`
 
-The manifest uses tags to identify the release set; the commit hashes provide
+The release set uses tags to identify components; the commit hashes provide
 exact verification. Page Assist uses the fork URL so the tagged remote transport
-and UI changes are reproducible. Keep every manifest tag and commit available
-from the configured remote before sharing or publishing the workspace.
+and UI changes are reproducible. Keep every tag and commit available from the
+configured remote before sharing or publishing the workspace.
 
 ## Remote Agent UI
 
@@ -95,8 +117,8 @@ The `.west/` directory is created beside `integration/`; the three project
 checkouts appear at `qwenpaw/`, `page-assist/`, and
 `qwenpaw-channel-page-assist/`.
 
-`west update` also fetches the plugin repository and checks out the pinned
-commit.
+`west update` also fetches the plugin repository and checks out the manifest
+revision.
 
 In this already initialized workspace, update projects after changing `west.yml`
 with:
@@ -105,9 +127,10 @@ with:
 west update
 ```
 
-West checks out each manifest revision in detached-HEAD state. Before making
-changes, create a feature branch in the relevant product checkout. Do not use
-`west update` to manage uncommitted work.
+West checks out branch revisions on the branch itself and tag or commit
+revisions in detached-HEAD state. Because `main` follows development branches,
+commit and push in the product checkout before rerunning `west update`. Do not
+use `west update` to manage uncommitted work.
 
 ## Development boundaries
 

@@ -32,7 +32,7 @@ QwenPaw 固定为 `qwenpaw==2.2.2.post1` 或上述提交。Page Assist 使用 Fo
 `remote-agent-preview-1`（提交 `c9eddc0d236bc58944bb0613ec317dd12d548bf1`），其上游基线为
 `v1.5.88` 及其 `bun.lockb`。v0.1.0 明确采用该预览 tag；除此之外不使用预发布版、开发分支或浮动
 latest。QwenPaw 版本选择依据为官方 Release 的 `draft: false`、`prerelease: false`；
-后续升级稳定版需另行验证和更新基线。
+后续升级稳定版需另行验证和更新基线。集成的 `main` 跟踪开发引用；上述固定适用于在 `release/vX.Y.Z` 分支上组合的发布版本。
 
 本版替代 v1.1 的 OpenClaw 方案。为保留仓库已有链接，项目目录暂沿用历史名称 `page-assist-openclaw`，不表示仍需部署 OpenClaw。
 
