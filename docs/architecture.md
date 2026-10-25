@@ -14,7 +14,7 @@ QwenPaw process
   └── selected QwenPaw Agent and its configured tools/memory
 ```
 
-There is no separately deployed Bridge and no second Agent loop. The browser
+There is no separately deployed relay service and no second Agent loop. The browser
 extension is a client; QwenPaw remains responsible for Agent execution,
 authorization, tool governance, and approval decisions. The extension presents
 this remote path as **Remote Agent**, alongside **Local models**; QwenPaw is the

@@ -136,7 +136,7 @@ use `west update` to manage uncommitted work.
 
 - Implement channel behavior only in `qwenpaw-channel-page-assist/`; install it
   into a pip-distributed QwenPaw environment. Do not modify upstream core or add
-  a separate Bridge service.
+  a separate relay service between the browser and QwenPaw.
 - Implement browser UI, page snapshotting, and remote transport only in
   `page-assist/`.
 - Define shared HTTP and SSE behavior in `contracts/` before implementing

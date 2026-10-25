@@ -28,7 +28,7 @@
 | Frontend foundation | Lightweight Page Assist fork |
 | Frontend development baseline | Upstream Official Release `v1.5.88`, 2026-10-18; commit `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`; integration tag `remote-agent-preview-1`, commit `c9eddc0d236bc58944bb0613ec317dd12d548bf1` |
 | Server foundation | QwenPaw stable native Agent, PawApp, and PluginApi |
-| Deployment | Integration module runs inside the QwenPaw process; no separately deployed Bridge |
+| Deployment | Integration module runs inside the QwenPaw process; no separately deployed relay service |
 | Core capabilities | Web-page context sharing, Agent selection, memory-aware chat, native tool approval |
 | Development and deployment baseline | Official stable Release `v2.2.2.post1`, released 2026-10-22; commit `b6715daabaa4f966626317452980fb84b8be9ab9` |
 
@@ -725,7 +725,7 @@ QwenPaw
 └── 原生 Agent、会话、记忆、审批与工具
 ```
 
-No separate Bridge process, port, or Node.js dependency. QwenPaw listens only on localhost or a controlled network interface, with only required paths exposed through an existing TLS entry point. Private networks also require authentication.
+No separate relay process, port, or Node.js dependency. QwenPaw listens only on localhost or a controlled network interface, with only required paths exposed through an existing TLS entry point. Private networks also require authentication.
 
 Expose only the integration API and necessary authentication paths at the remote entry point. Sharing a port does not justify exposing all Console management functions. If Console needs remote access, use a separate management policy.
 
@@ -801,7 +801,7 @@ This document change did not run the above build or runtime acceptance. Those ar
 
 | Scenario | Expected result |
 | --- | --- |
-| Start service | No separate Bridge application; integration module loads with QwenPaw |
+| Start service | No separate relay application; integration module loads with QwenPaw |
 | Release baseline | Pinned frontend v1.5.88 and backend 2.2.2.post1 commits; no development-version API dependency |
 | No local model configuration | Remote page and settings work without Ollama or `selectedModel` |
 | Remote page initialization | Does not restore local copilot history, inject a default Prompt, or auto-submit background messages |
@@ -862,7 +862,7 @@ Evaluate only after the first release is stable:
 6. Controlled “save as memory” operation.
 7. Browser automation under separate permissions.
 
-Reevaluate a standalone gateway only if unified multi-platform integration, independent scaling, or process isolation is needed. Do not retain a second Bridge application for this proposal.
+Reevaluate a standalone gateway only if unified multi-platform integration, independent scaling, or process isolation is needed. Do not retain a second relay application for this proposal.
 
 ## 15. Source References and Version Constraints
 
@@ -914,8 +914,8 @@ Upgrade only between official stable Releases and revalidate PawApp, identity pr
 
 | Version | Date | Changes |
 | --- | --- | --- |
-| v1.0 | 2026-10-22 | Initial OpenClaw proposal for web context, conversations, memory, and a separate Bridge |
+| v1.0 | 2026-10-22 | Initial OpenClaw proposal for web context, conversations, memory, and a separate relay service (never implemented) |
 | v1.1 | 2026-10-22 | Added native OpenClaw execution approvals to the first release |
-| v2.0 | 2026-10-23 | Replaced with QwenPaw; changed Bridge to an in-process integration module; reused PawApp, native tasks, conversations, memory, and approvals; removed mandatory one-time approval; rewrote APIs, deployment, recovery, and acceptance |
+| v2.0 | 2026-10-23 | Replaced with QwenPaw; replaced the standalone relay service with an in-process integration module; reused PawApp, native tasks, conversations, memory, and approvals; removed mandatory one-time approval; rewrote APIs, deployment, recovery, and acceptance |
 | v2.1 | 2026-10-23 | Pinned official stable v2.2.2.post1; rechecked release source; removed dependencies on newer plugin SDK, event bus, and hot reload; adopted stable PawApp, TaskTracker, ApprovalService, and centralized adapter |
 | v2.2 | 2026-10-23 | Pinned official Page Assist v1.5.88; detailed separate remote routes, component reuse, snapshot capture, Dexie v6, transport recovery, credential backup exclusions, file-level changes, and frontend validation |

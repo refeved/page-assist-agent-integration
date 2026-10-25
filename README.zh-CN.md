@@ -102,7 +102,7 @@ revision 为分支时 west 检出对应分支，为 tag 或提交时处于 detac
 
 ## 开发职责边界
 
-- 频道行为只在 `qwenpaw-channel-page-assist/` 实现，安装到 pip 发布版 QwenPaw 环境；不修改宿主核心，不添加独立 Bridge 服务。
+- 频道行为只在 `qwenpaw-channel-page-assist/` 实现，安装到 pip 发布版 QwenPaw 环境；不修改宿主核心，不在浏览器与 QwenPaw 之间添加独立中继服务。
 - 浏览器界面、网页快照和远程传输只在 `page-assist/` 实现。
 - 跨仓库开发前，先在 `contracts/` 定义共享 HTTP 和 SSE 行为。
 - 工作区编排、跨仓库测试和组合发布由本仓库负责。

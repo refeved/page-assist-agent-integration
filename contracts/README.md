@@ -18,14 +18,14 @@ Before implementing a cross-repository feature, add or update:
 Contract changes should describe observable behavior, including authorization,
 idempotency, reconnection, and error semantics. Validate both implementations
 against the same fixtures in workspace-level tests. Do not introduce a separate
-Bridge process or make either product repository depend on this repository at runtime.
+relay process or make either product repository depend on this repository at runtime.
 
 ## First release: basic channel profile
 
 The first release uses an independently installed `page_assist` channel and
 targets QwenPaw as its host: the channel may open a dedicated HTTP listener
 **inside the QwenPaw process** (default `127.0.0.1:8766`). This intentionally
-relaxes the original same-port requirement, not the no-separate-Bridge-process
+relaxes the original same-port requirement, not the no-separate-relay-process
 requirement. Other OpenClaw-like Agents join the same contract through their own
 host adapters; see "Host neutrality and future adapters" below. The browser UI
 exposes this remote path as **Remote Agent**; QwenPaw is the first backend, not
