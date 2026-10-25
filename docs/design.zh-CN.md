@@ -7,21 +7,28 @@
 > 频道仓库和 pip 发布版 QwenPaw，而非 PawApp 或宿主核心修改。
 > 部署、仓库职责和实际支持能力以[基础频道 profile](../contracts/README.zh-CN.md#第一版基础频道-profile)
 > 及[当前架构](architecture.zh-CN.md)为准。
+>
+> v0.1.0（2026-10-25）：QwenPaw 使用 `v2.2.2.post1`，Page Assist 与插件使用
+> `remote-agent-preview-1`。这是首个可运行预览，不代表完整设计已通过运行验收。
 
 | 项目 | 内容 |
 | --- | --- |
 | 文档版本 | v2.2 |
 | 日期 | 2026-10-23 |
-| 状态 | 设计方案，尚未实施；源码分析不等于运行验收 |
+| 状态 | 设计方案；v0.1.0 预览已实施，完整设计仍待运行验收 |
 | 目标平台 | Google Chrome，Manifest V3 |
 | 前端基础 | Page Assist 轻量 Fork |
-| 前端开发基线 | 正式 Release `v1.5.88`，2026-10-18；提交 `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65` |
+| 前端开发基线 | 上游正式 Release `v1.5.88`，2026-10-18；提交 `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`；集成 tag `remote-agent-preview-1`，提交 `c9eddc0d236bc58944bb0613ec317dd12d548bf1` |
 | 服务端基础 | QwenPaw 稳定版原生 Agent、PawApp 与 PluginApi |
 | 部署方式 | 接入模块运行于 QwenPaw 进程内，不独立部署 Bridge |
 | 核心能力 | 网页上下文分享、Agent 选择、结合记忆对话、原生工具审批 |
 | 开发与部署基线 | 正式稳定 Release `v2.2.2.post1`，发布于 2026-10-22；提交 `b6715daabaa4f966626317452980fb84b8be9ab9` |
 
-QwenPaw 固定为 `qwenpaw==2.2.2.post1` 或上述提交，Page Assist 固定为 `v1.5.88` 对应提交及其 `bun.lockb`，不使用预发布版、开发分支或浮动 latest。两者版本选择依据均为官方 Release 的 `draft: false`、`prerelease: false`；后续升级稳定版需另行验证和更新基线。
+QwenPaw 固定为 `qwenpaw==2.2.2.post1` 或上述提交。Page Assist 使用 Fork tag
+`remote-agent-preview-1`（提交 `c9eddc0d236bc58944bb0613ec317dd12d548bf1`），其上游基线为
+`v1.5.88` 及其 `bun.lockb`。v0.1.0 明确采用该预览 tag；除此之外不使用预发布版、开发分支或浮动
+latest。QwenPaw 版本选择依据为官方 Release 的 `draft: false`、`prerelease: false`；
+后续升级稳定版需另行验证和更新基线。
 
 本版替代 v1.1 的 OpenClaw 方案。为保留仓库已有链接，项目目录暂沿用历史名称 `page-assist-openclaw`，不表示仍需部署 OpenClaw。
 
@@ -768,7 +775,7 @@ QwenPaw
 
 ### 阶段四：端到端与回归
 
-使用真实 Chrome 和目标部署验证完整链路，记录配置、版本、实际支持的审批类型与恢复边界。通过下述验收后再更新“尚未实施”状态，不能以源码阅读或接口存在代替运行证据。
+使用真实 Chrome 和目标部署验证完整链路，记录配置、版本、实际支持的审批类型与恢复边界。通过下述验收后再将状态更新为“完整设计已验收”，不能以源码阅读或接口存在代替运行证据；v0.1.0 预览只覆盖基础频道链路。
 
 前端验证使用发布版现有工程工具，不先引入新的测试框架：
 

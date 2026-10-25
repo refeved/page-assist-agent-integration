@@ -31,18 +31,20 @@ Page Assist tracks the personal fork `refeved/page-assist-agent-usage`, and the
 plugin tracks
 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist).
 
-## Baseline
+## v0.1.0 Baseline
 
-The manifest pins the analyzed revisions:
+The `v0.1.0` manifest pins the following release set:
 
-- QwenPaw `2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
-- Page Assist fork commit `c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad`,
-  based on upstream `v1.5.88` (`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`)
-- Plugin commit `093c3b0a521313efa422dda84b1763219a5ced54`
+- QwenPaw `v2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist fork tag `remote-agent-preview-1`, commit
+  `c9eddc0d236bc58944bb0613ec317dd12d548bf1`, based on upstream `v1.5.88`
+  (`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`)
+- Plugin tag `remote-agent-preview-1`, commit `093c3b0a521313efa422dda84b1763219a5ced54`
 
-Page Assist uses the fork URL so the committed remote transport and UI changes
-are reproducible. Keep every manifest revision pinned to a commit that is
-available from the configured remote before sharing or publishing the workspace.
+The manifest uses tags to identify the release set; the commit hashes provide
+exact verification. Page Assist uses the fork URL so the tagged remote transport
+and UI changes are reproducible. Keep every manifest tag and commit available
+from the configured remote before sharing or publishing the workspace.
 
 ## Runtime
 
@@ -120,7 +122,7 @@ dependencies. `QWENPAW_TEST_PYTHON` overrides the test interpreter;
 Changing the checkout does not change the installed plugin copy. Reinstall with
 `--force` and restart QwenPaw only when deploying a plugin update.
 See the plugin repository's
-[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md)
+[README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/remote-agent-preview-1/README.md)
 for configuration.
 
 See [docs/architecture.md](docs/architecture.md) for the ownership and

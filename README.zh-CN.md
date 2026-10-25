@@ -18,17 +18,18 @@
 QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-agent-usage`，
 插件指向 [refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)。
 
-## 稳定版基线
+## v0.1.0 集成基线
 
-清单固定到已分析的版本：
+`v0.1.0` 清单固定到以下发布组合：
 
-- QwenPaw `2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
-- Page Assist Fork 提交 `c7ea951a0e3ba4c67bfa7f21761f8fcd2134b6ad`，
+- QwenPaw `v2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist Fork tag `remote-agent-preview-1`，提交 `c9eddc0d236bc58944bb0613ec317dd12d548bf1`，
   基于上游 `v1.5.88`（`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`）
-- 插件提交 `093c3b0a521313efa422dda84b1763219a5ced54`
+- 插件 tag `remote-agent-preview-1`，提交 `093c3b0a521313efa422dda84b1763219a5ced54`
 
-Page Assist 使用 Fork 地址，使已提交的远程传输和界面改动可复现。
-共享或发布工作区之前，确保清单中的每个提交都能从对应远程获取。
+清单使用 tag 标识发布组合，提交哈希用于精确核对。Page Assist 使用 Fork 地址，
+使已打 tag 的远程传输和界面改动可复现。共享或发布工作区之前，确保清单中的每个 tag
+和提交都能从对应远程获取。
 
 ## 运行效果
 
@@ -91,7 +92,7 @@ node tests/qwenpaw-channel-browser.mjs
 浏览器回归需要已构建的扩展和 Page Assist 测试依赖。
 `QWENPAW_TEST_PYTHON` 可指定测试解释器，`QWENPAW_CHANNEL_DIR` 可指定插件仓库路径。
 修改仓库不会改变宿主管理的已安装插件副本；部署更新时才需要使用 `--force` 重装并重启 QwenPaw。
-配置步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/093c3b0a521313efa422dda84b1763219a5ced54/README.md)。
+配置步骤见插件仓库的 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/remote-agent-preview-1/README.md)。
 
 完整产品设计与实施计划：[简体中文](docs/design.zh-CN.md) · [English](docs/design.md)。
 第一版采用单 Agent 频道插件及进程内专用监听端口，复杂恢复和审批卡片延期；

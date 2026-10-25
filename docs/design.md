@@ -9,21 +9,30 @@
 > [basic channel profile](../contracts/README.md#first-release-basic-channel-profile)
 > and [current architecture](architecture.md) take precedence for deployment,
 > repository ownership, and supported capabilities.
+>
+> v0.1.0 (2026-10-25): QwenPaw uses `v2.2.2.post1`, while Page Assist and the
+> plugin use `remote-agent-preview-1`. This is the first runnable preview and does
+> not mean the full design has passed runtime acceptance.
 
 | Item | Details |
 | --- | --- |
 | Document version | v2.2 |
 | Date | 2026-10-23 |
-| Status | Design proposal, not yet implemented; source analysis is not runtime acceptance |
+| Status | Design proposal; the v0.1.0 preview is implemented, while the full design still needs runtime acceptance |
 | Target platform | Google Chrome, Manifest V3 |
 | Frontend foundation | Lightweight Page Assist fork |
-| Frontend development baseline | Official Release `v1.5.88`, 2026-10-18; commit `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65` |
+| Frontend development baseline | Upstream Official Release `v1.5.88`, 2026-10-18; commit `ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`; integration tag `remote-agent-preview-1`, commit `c9eddc0d236bc58944bb0613ec317dd12d548bf1` |
 | Server foundation | QwenPaw stable native Agent, PawApp, and PluginApi |
 | Deployment | Integration module runs inside the QwenPaw process; no separately deployed Bridge |
 | Core capabilities | Web-page context sharing, Agent selection, memory-aware chat, native tool approval |
 | Development and deployment baseline | Official stable Release `v2.2.2.post1`, released 2026-10-22; commit `b6715daabaa4f966626317452980fb84b8be9ab9` |
 
-Pin QwenPaw to `qwenpaw==2.2.2.post1` or the commit above, and Page Assist to the corresponding `v1.5.88` commit and its `bun.lockb`. Do not use prereleases, development branches, or a floating `latest`. Both versions were selected based on official Releases with `draft: false` and `prerelease: false`. Any later stable-version upgrade must be separately verified and the baseline updated.
+Pin QwenPaw to `qwenpaw==2.2.2.post1` or the commit above. Page Assist uses fork tag
+`remote-agent-preview-1` (commit `c9eddc0d236bc58944bb0613ec317dd12d548bf1`), whose upstream
+baseline is `v1.5.88` and its `bun.lockb`. v0.1.0 intentionally uses this preview tag;
+otherwise do not use prereleases, development branches, or a floating `latest`. QwenPaw
+was selected from an official Release with `draft: false` and `prerelease: false`; any
+later stable-version upgrade must be separately verified and the baseline updated.
 
 This version replaces the v1.1 OpenClaw proposal. To preserve existing repository links, the project directory temporarily retains the historical name `page-assist-openclaw`; this does not mean OpenClaw still needs to be deployed.
 
@@ -768,7 +777,7 @@ Retain ordinary model mode; do not send internal steps of the existing web Q&A c
 
 ### Phase 4: End-to-End and Regression Testing
 
-Validate the entire path using real Chrome and the target deployment, and record configuration, versions, supported approval types, and recovery boundaries. Update the “not yet implemented” status only after passing acceptance below; source review or the existence of an API is not runtime evidence.
+Validate the entire path using real Chrome and the target deployment, and record configuration, versions, supported approval types, and recovery boundaries. Update the status to full design acceptance only after passing the acceptance below; source review or the existence of an API is not runtime evidence. The v0.1.0 preview covers only the basic channel path.
 
 Frontend validation uses existing release-project tools; do not introduce a new test framework first:
 
