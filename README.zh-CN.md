@@ -57,6 +57,10 @@ tag `v0.1.0` 记录首个发布组合。它早于发布分支流程，因此仅�
 选择，并在选中后内联展开连接表单；之后可在 options 和侧栏设置的独立 Remote Agent Tab
 中配置。该路径不需要 Ollama 配置。
 
+![首次启动时的 Provider 选择，Remote Agent 已选中](docs/assets/page-assist-first-setup.png)
+
+首次启动时侧边栏会询问对话方式；选中 Remote Agent 后连接表单就地展开。截图为尚未保存任何连接时的选择页面。
+
 ![侧栏设置中的 Remote Agent Tab](docs/assets/page-assist-remote-agent-settings-tab.png)
 
 侧栏设置的 Tab 栏中，Remote Agent 与 General Settings、OpenAI Compatible API 和

@@ -79,6 +79,12 @@ saved, a provider chooser opens the connection form inline; later configuration
 lives in the dedicated Remote Agent tab in both the options page and side-panel
 settings. No Ollama configuration is required for this path.
 
+![First-run provider chooser with Remote Agent selected](docs/assets/page-assist-first-setup.png)
+
+On first run the side panel asks how to chat; selecting Remote Agent expands the
+connection form inline. The screenshot shows the picker before any connection is
+saved.
+
 ![Remote Agent tab in the side-panel settings](docs/assets/page-assist-remote-agent-settings-tab.png)
 
 The side-panel settings bar shows Remote Agent beside General Settings, OpenAI
