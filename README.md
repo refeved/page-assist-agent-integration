@@ -51,8 +51,9 @@ while browsing:
 
 ![Page Assist side panel connected to a Remote Agent](docs/assets/page-assist-remote-agent-sidepanel.png)
 
-Captured from the v0.1.0 release set while browsing GitHub. Agent names and
-conversation content are for demonstration only.
+Captured from the v0.1.0 release set while browsing GitHub; the interface is
+unchanged in v0.1.1. Agent names and conversation content are for demonstration
+only.
 
 ## Highlights
 
@@ -203,6 +204,15 @@ To reproduce a released set, check out its tag here and run `west update`; each
 project checks out the pinned commit in detached HEAD.
 
 ## Release baseline
+
+Tag `v0.1.1`:
+
+- QwenPaw `v2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist fork tag `agent-usage-v0.1.1`, commit
+  `5a384102379caf2beff86400140c0217fa813920`, based on upstream `v1.5.88`
+  (`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`)
+- Plugin tag `qwenpaw-channel-page-assist-v0.1.1`, commit
+  `fe06550af6c269fbcd15700321ff8747a879b60c`
 
 Tag `v0.1.0` is the first released combination. It predates the release-branch
 workflow, so the tag alone identifies it:

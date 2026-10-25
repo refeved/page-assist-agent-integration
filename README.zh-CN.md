@@ -39,7 +39,7 @@ QwenPaw Agent 对话，网页内容由你显式选择后才发送。
 
 ![Page Assist 侧边栏连接 Remote Agent](docs/assets/page-assist-remote-agent-sidepanel.png)
 
-截图来自 v0.1.0 发布组合，拍摄于浏览 GitHub 页面时。截图中的 Agent 名称和对话内容
+截图拍摄于 v0.1.0 发布组合，界面在 v0.1.1 中未变。截图中的 Agent 名称和对话内容
 仅用于演示。
 
 ## 亮点
@@ -174,6 +174,13 @@ bun run build:chrome
 各项目会以 detached HEAD 检出固定提交。
 
 ## 发布基线
+
+tag `v0.1.1`：
+
+- QwenPaw `v2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist Fork tag `agent-usage-v0.1.1`，提交 `5a384102379caf2beff86400140c0217fa813920`，
+  基于上游 `v1.5.88`（`ad6ef90a9b4b860bbdfc81ee82111c8e04502c65`）
+- 插件 tag `qwenpaw-channel-page-assist-v0.1.1`，提交 `fe06550af6c269fbcd15700321ff8747a879b60c`
 
 tag `v0.1.0` 记录首个发布组合。它早于发布分支流程，因此仅由该 tag 标识：
 
