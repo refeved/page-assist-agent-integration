@@ -1,7 +1,7 @@
 manifest:
   version: "0.13"
 
-  # v0.1.0 integration baseline
+  # Development track. Released baselines stay pinned on their release branch.
   projects:
     - name: qwenpaw
       url: https://github.com/agentscope-ai/QwenPaw.git
@@ -10,12 +10,12 @@ manifest:
 
     - name: page-assist
       url: https://github.com/refeved/page-assist-agent-usage.git
-      revision: remote-agent-preview-1
+      revision: feat/qwenpaw-remote-channel
       path: page-assist
 
     - name: qwenpaw-channel-page-assist
       url: https://github.com/refeved/qwenpaw-channel-page-assist.git
-      revision: remote-agent-preview-1
+      revision: main
       path: qwenpaw-channel-page-assist
 
   self:
