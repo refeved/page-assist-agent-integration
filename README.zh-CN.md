@@ -30,6 +30,14 @@ QwenPaw 指向官方上游，Page Assist 指向个人 Fork `refeved/page-assist-
 Page Assist 使用 Fork 地址，使已提交的远程传输和界面改动可复现。
 共享或发布工作区之前，确保清单中的每个提交都能从对应远程获取。
 
+## 运行效果
+
+Page Assist 侧边栏已连接远程 QwenPaw Agent，并可在网页浏览过程中进行多轮对话：
+
+![Page Assist 侧边栏连接 QwenPaw Agent](docs/assets/page-assist-qwenpaw-sidepanel.png)
+
+截图中的 Agent 名称和对话内容仅用于演示。
+
 ## 初始化
 
 克隆本集成仓库后运行：

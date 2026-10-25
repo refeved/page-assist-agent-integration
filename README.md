@@ -44,6 +44,16 @@ Page Assist uses the fork URL so the committed remote transport and UI changes
 are reproducible. Keep every manifest revision pinned to a commit that is
 available from the configured remote before sharing or publishing the workspace.
 
+## Runtime
+
+The Page Assist side panel connected to a remote QwenPaw Agent and holding a
+multi-turn conversation while browsing:
+
+![Page Assist side panel connected to a QwenPaw Agent](docs/assets/page-assist-qwenpaw-sidepanel.png)
+
+Agent names and conversation content in the screenshot are for demonstration
+only.
+
 ## Initialize
 
 From a clone of this repository:
