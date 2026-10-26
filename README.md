@@ -168,8 +168,24 @@ See the plugin repository's
 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/main/README.md)
 for configuration.
 
-Changing the checkout does not change the installed plugin copy. Reinstall with
-`--force` and restart QwenPaw only when deploying a plugin update.
+Changing the checkout does not change the installed plugin copy. To deploy a
+plugin update, run the reload helper instead of a bare `plugin install --force`:
+
+```bash
+scripts/reload-channel-plugin.sh
+```
+
+A hot reload binds the channel port once and does not retry, so the previous
+instance can still hold the port when the new one starts. The CLI then prints
+success and the stale socket keeps answering, while the new code never took
+effect. The helper compares the listening socket inode across the reload, waits
+for the old socket to release the port, retries the install, and can restart the
+host service to free the port:
+
+```bash
+scripts/reload-channel-plugin.sh --restart   # fall back to restarting QwenPaw
+scripts/reload-channel-plugin.sh --help      # all options and overrides
+```
 
 ### Build and load the extension
 

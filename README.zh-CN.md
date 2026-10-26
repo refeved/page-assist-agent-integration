@@ -142,8 +142,21 @@ qwenpaw plugin install /path/to/qwenpaw-channel-page-assist
 配置步骤见插件仓库的
 [README](https://github.com/refeved/qwenpaw-channel-page-assist/blob/main/README.md)。
 
-修改仓库不会改变宿主管理的已安装插件副本；部署更新时才需要使用 `--force`
-重装并重启 QwenPaw。
+修改仓库不会改变宿主管理的已安装插件副本。部署插件更新时，请运行重载脚本，
+而不是直接执行 `plugin install --force`：
+
+```bash
+scripts/reload-channel-plugin.sh
+```
+
+热重载只绑定一次频道端口且不会重试，因此旧实例可能仍占用端口，新实例却启动失败。
+此时 CLI 仍打印成功、旧 socket 继续响应，但新代码从未生效。脚本会比较重载前后的
+监听 socket inode，等待旧 socket 释放端口、重试安装，必要时可重启宿主服务释放端口：
+
+```bash
+scripts/reload-channel-plugin.sh --restart   # 回退到重启 QwenPaw
+scripts/reload-channel-plugin.sh --help      # 全部选项与环境变量
+```
 
 ### 构建并加载扩展
 
