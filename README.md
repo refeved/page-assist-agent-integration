@@ -135,11 +135,14 @@ tracks
 ### Prebuilt downloads (optional)
 
 To skip building the extension, download the
-`page-assist-chrome-mv3-v0.1.2.zip` asset from
-[GitHub Releases](https://github.com/refeved/page-assist-agent-integration/releases/tag/v0.1.2),
-unzip it, and use "Load unpacked extension" on the browser's extensions page
-pointing at the unzipped `chrome-mv3` directory (Chrome/Chromium only; Firefox
-does not expose Remote Agent). The plugin needs no build; its tag archive
+`page-assist-chrome-v0.1.2.zip`, `page-assist-edge-v0.1.2.zip` or
+`page-assist-firefox-v0.1.2.zip` asset from
+[GitHub Releases](https://github.com/refeved/page-assist-agent-integration/releases/tag/v0.1.2)
+and unzip it. Each archive holds the unpacked extension root, so "Load unpacked
+extension" points directly at the unzipped directory. Chrome and Edge build
+Remote Agent into the side panel; the Firefox build is the stock MV2 extension
+without the Remote Agent path, covering local models only. The plugin needs no
+build; its tag archive
 `https://github.com/refeved/qwenpaw-channel-page-assist/archive/refs/tags/qwenpaw-channel-page-assist-v0.1.2.zip`
 can be unzipped and installed per the plugin README.
 
