@@ -113,11 +113,11 @@ Manage Models 并列。截图为中文界面，组件与协议名称保持英文
 
 不想本地构建扩展时，从
 [GitHub Releases](https://github.com/refeved/page-assist-agent-integration/releases/tag/v0.1.2)
-下载资产 `page-assist-chrome-v0.1.2.zip`、`page-assist-edge-v0.1.2.zip` 或
-`page-assist-firefox-v0.1.2.zip` 并解压。每个压缩包内就是解压即用的扩展根目录，
-在浏览器扩展页选择“加载已解压的扩展程序”直接指向解压目录即可。Chrome 与 Edge
-的构建包含 Remote Agent 侧栏入口；Firefox 构建是原版 MV2 扩展，不含
-Remote Agent 路径，仅覆盖本地模型。插件无需构建，可直接使用 tag 源码归档
+下载资产 `page-assist-chrome-v0.1.2.zip` 或 `page-assist-edge-v0.1.2.zip` 并解压。
+每个压缩包内就是解压即用的扩展根目录，
+在浏览器扩展页选择“加载已解压的扩展程序”直接指向解压目录即可。两个构建都包含
+Remote Agent 入口。不发布 Firefox 包：Firefox 完全没有 Remote Agent 入口，
+构建出来只是原版本地模型扩展，对本发布组合没有价值。插件无需构建，可直接使用 tag 源码归档
 `https://github.com/refeved/qwenpaw-channel-page-assist/archive/refs/tags/qwenpaw-channel-page-assist-v0.1.2.zip`，
 解压后按插件 README 安装。
 
