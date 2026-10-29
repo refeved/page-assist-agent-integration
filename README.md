@@ -132,6 +132,20 @@ tracks
 
 ## Quick start
 
+### Prebuilt downloads (optional)
+
+To skip building the extension, download the
+`page-assist-chrome-v0.1.2.zip` or `page-assist-edge-v0.1.2.zip` asset from
+[GitHub Releases](https://github.com/refeved/page-assist-agent-integration/releases/tag/v0.1.2)
+and unzip it. Each archive holds the unpacked extension root, so "Load unpacked
+extension" points directly at the unzipped directory. Both builds include the
+Remote Agent path. No Firefox package is released: Firefox lacks the Remote
+Agent entry entirely, so a Firefox build would only ship the stock local-model
+extension and adds no value to this release. The plugin needs no
+build; its tag archive
+`https://github.com/refeved/qwenpaw-channel-page-assist/archive/refs/tags/qwenpaw-channel-page-assist-v0.1.2.zip`
+can be unzipped and installed per the plugin README.
+
 ### Initialize
 
 ```bash
@@ -223,42 +237,33 @@ project checks out the pinned commit in detached HEAD.
 
 ## Release baseline
 
-Tag `v0.1.1` is the current release set. It lives on the `release/v0.1.1`
+Tag `v0.1.2` is the current release set. It lives on the `release/v0.1.2`
 branch, whose `west.yml` pins every project to a tag; `main` keeps tracking
 development refs:
+
+- QwenPaw `v2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist fork tag `agent-usage-v0.1.2`, commit
+  `afe8aa741a6420b8262904917820b87c668ffb1e`
+- Plugin tag `qwenpaw-channel-page-assist-v0.1.2`, commit
+  `6d08babef62e9d8c3ab5d05550924f1c71aa1d28`
+
+v0.1.2 promotes everything developed after v0.1.1: image/file/page-screenshot
+attachments (with step-down compression over the cap and one shrunk retry after
+a relay 413), in-browser approvals (composer popover, rendered in full,
+reconciled by 5-second polling), speech dictation, TTS playback, quick-prompt
+insertion, and the scroll fix that no longer blanks and rebuilds the transcript
+on submit. To run this set, check out the `v0.1.2` tag and rerun `west update`;
+prebuilt artifacts are covered in "Prebuilt downloads" above.
+
+Tag `v0.1.1` was the first set produced by the release-branch workflow. It
+labels side-panel replies with the configured Agent name instead of a fixed
+label.
 
 - QwenPaw `v2.2.2.post1`, commit `b6715daabaa4f966626317452980fb84b8be9ab9`
 - Page Assist fork tag `agent-usage-v0.1.1`, commit
   `5a384102379caf2beff86400140c0217fa813920`
 - Plugin tag `qwenpaw-channel-page-assist-v0.1.1`, commit
   `fe06550af6c269fbcd15700321ff8747a879b60c`
-
-v0.1.1 is the first set produced by the release-branch workflow above. It labels
-side-panel replies with the configured Agent name instead of a fixed label. To run
-it, check out `release/v0.1.1` or the `v0.1.1` tag, then rerun `west update`.
-
-### Progress after v0.1.1 (development line, unreleased)
-
-These capabilities have landed on the development refs (extension
-`feat/qwenpaw-remote-channel`, plugin `main`) and will ship with the next release
-set after acceptance; `west update` already picks them up:
-
-- Attachment channel: `POST /attachments` base64 upload; images, files and page
-  screenshots ride the next message and reach the Agent as native image/file
-  content; attachment-only messages without text are allowed.
-- In-browser approvals: pending list and decision endpoints, a composer button
-  with a popover for approve/deny, reconciled by 5-second polling; approvals no
-  longer write notices into the chat transcript.
-- Composer-local features: speech dictation, TTS playback and quick-prompt
-  insertion.
-- Interaction and robustness fixes: approval popovers render in full without
-  nested scrolling; oversized screenshots step down in quality and a relay 413
-  triggers one shrunk retry; submitting no longer blanks and rebuilds the
-  transcript (the view stops jumping to the oldest message), and sending while
-  scrolled up keeps the reading position.
-- Deployment: a reverse proxy or relay in front of the channel must carry the
-  base64-inflated body (e.g. `client_max_body_size 10m;`); see the plugin
-  README's data-boundary section.
 
 Tag `v0.1.0` is the first released combination. It predates the release-branch
 workflow, so the tag alone identifies it:
