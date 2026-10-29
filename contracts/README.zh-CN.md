@@ -50,6 +50,20 @@
 浏览器远程取消、跨宿主统一网关与宿主间迁移。高级前端协议保留，受 capabilities
 控制，不代表频道已经实现。验收必须区分真实模型/工具与确定性执行替身。
 
+## 首版发布后扩展的能力
+
+下表固定的是 v0.1.x 发布组合的基线。插件 `main` 与扩展开发分支在其上补充了两项
+可选能力，前端按 capabilities 声明降级，协议前缀与认证边界不变：
+
+- `approvals=true`：`GET /approvals` 返回本浏览器凭据拥有的待审批，
+  `POST /approvals/:id/decision` 提交原生决定；同 `decisionId` 同负载幂等确认，
+  冲突决定返回 409。`approvalEvents` 仍为 false，前端每 5 秒轮询对账。
+- `attachments` 能力字段（v1 schema 的追加字段，缺省视为不支持）：
+  `POST /attachments` base64 上传（受 `maxAttachmentBytes` 限制，服务端按魔数
+  区分图片与文件并存入绑定 Agent 工作区），消息以 `attachmentId` 一次性引用至多
+  `maxAttachments` 个；无正文、仅附件的消息合法。频道对请求体设 8 MiB 闸门，
+  前置反代或中继必须放行相应的膨胀体积。`recovery` 仍为 false。
+
 ## 宿主无关性与后续适配
 
 契约中的路径、认证、请求与响应体、SSE 语义均与宿主无关；`/api/page-assist`

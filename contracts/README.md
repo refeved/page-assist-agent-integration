@@ -60,6 +60,26 @@ rich media, remote cancellation, a cross-host gateway and host migration are
 deferred. Deterministic transport tests are not real-model, memory or
 tool-approval acceptance.
 
+## Capabilities added after the first release
+
+The v0.1.x release set is the baseline described above. Plugin `main` and the
+extension development branch add two optional capabilities; the frontend
+degrades by capabilities as always, and the path prefix and auth boundary are
+unchanged:
+
+- `approvals=true`: `GET /approvals` lists pending approvals owned by this
+  browser credential and `POST /approvals/:id/decision` submits native
+  decisions. The same `decisionId` with the same payload confirms idempotently;
+  conflicting decisions return 409. `approvalEvents` stays false; the frontend
+  reconciles by polling every five seconds.
+- `attachments` capability fields (additive to the v1 schema; absent means
+  unsupported): `POST /attachments` takes base64 capped by `maxAttachmentBytes`,
+  classifies images versus files by magic bytes, and stores them inside the
+  bound Agent workspace; messages reference up to `maxAttachments`
+  one-use `attachmentId`s, and attachment-only messages without text are valid.
+  The channel gates request bodies at 8 MiB, so any reverse proxy or relay in
+  front must carry the base64-inflated size. `recovery` stays false.
+
 ## Host neutrality and future adapters
 
 Paths, authentication, request and response bodies, and SSE semantics are

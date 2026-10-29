@@ -76,10 +76,12 @@ Remote Agent and local models are separate paths with different capabilities:
 
 | Available remotely | Not available remotely |
 | --- | --- |
-| Text chat | Local RAG, web search, MCP, prompts |
+| Text chat | Local RAG, web search, MCP |
 | Explicit webpage or selection sharing | Temporary chat, per-chat model settings |
-| In-instance conversation history | File or image upload, vision/OCR, speech |
-| New chats | Page Action, WebMCP |
+| Image, file and page-screenshot attachments | OCR, Page Action, WebMCP |
+| In-browser approvals (approve/deny under native policy) | Message edit/regenerate, branch, continue |
+| In-instance conversation history, new chats | Cross-restart recovery, automatic reconnect |
+| Speech dictation, TTS playback, quick prompts (run in the browser) | — |
 
 Firefox does not expose Remote Agent; use a Chromium browser. See the fork's
 [Remote Agent guide](https://github.com/refeved/page-assist-agent-usage/blob/feat/qwenpaw-remote-channel/docs/qwenpaw-remote.md)
@@ -234,6 +236,29 @@ development refs:
 v0.1.1 is the first set produced by the release-branch workflow above. It labels
 side-panel replies with the configured Agent name instead of a fixed label. To run
 it, check out `release/v0.1.1` or the `v0.1.1` tag, then rerun `west update`.
+
+### Progress after v0.1.1 (development line, unreleased)
+
+These capabilities have landed on the development refs (extension
+`feat/qwenpaw-remote-channel`, plugin `main`) and will ship with the next release
+set after acceptance; `west update` already picks them up:
+
+- Attachment channel: `POST /attachments` base64 upload; images, files and page
+  screenshots ride the next message and reach the Agent as native image/file
+  content; attachment-only messages without text are allowed.
+- In-browser approvals: pending list and decision endpoints, a composer button
+  with a popover for approve/deny, reconciled by 5-second polling; approvals no
+  longer write notices into the chat transcript.
+- Composer-local features: speech dictation, TTS playback and quick-prompt
+  insertion.
+- Interaction and robustness fixes: approval popovers render in full without
+  nested scrolling; oversized screenshots step down in quality and a relay 413
+  triggers one shrunk retry; submitting no longer blanks and rebuilds the
+  transcript (the view stops jumping to the oldest message), and sending while
+  scrolled up keeps the reading position.
+- Deployment: a reverse proxy or relay in front of the channel must carry the
+  base64-inflated body (e.g. `client_max_body_size 10m;`); see the plugin
+  README's data-boundary section.
 
 Tag `v0.1.0` is the first released combination. It predates the release-branch
 workflow, so the tag alone identifies it:
