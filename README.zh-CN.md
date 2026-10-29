@@ -109,6 +109,16 @@ Manage Models 并列。截图为中文界面，组件与协议名称保持英文
 
 ## 快速开始
 
+### 预编译下载（可选）
+
+不想本地构建扩展时，从
+[GitHub Releases](https://github.com/refeved/page-assist-agent-integration/releases/tag/v0.1.2)
+下载资产 `page-assist-chrome-mv3-v0.1.2.zip`，解压后在浏览器扩展页选择
+“加载已解压的扩展程序”，指向解压出的 `chrome-mv3` 目录即可（仅 Chrome/Chromium；
+Firefox 不提供 Remote Agent 入口）。插件无需构建，可直接使用 tag 源码归档
+`https://github.com/refeved/qwenpaw-channel-page-assist/archive/refs/tags/qwenpaw-channel-page-assist-v0.1.2.zip`，
+解压后按插件 README 安装。
+
 ### 初始化
 
 ```bash
@@ -190,34 +200,29 @@ bun run build:chrome
 
 ## 发布基线
 
-tag `v0.1.1` 是当前发布组合。它位于 `release/v0.1.1` 分支，该分支的 `west.yml`
+tag `v0.1.2` 是当前发布组合。它位于 `release/v0.1.2` 分支，该分支的 `west.yml`
 把每个 project 固定到 tag；`main` 继续跟踪开发引用：
+
+- QwenPaw `v2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
+- Page Assist Fork tag `agent-usage-v0.1.2`，提交
+  `afe8aa741a6420b8262904917820b87c668ffb1e`
+- 插件 tag `qwenpaw-channel-page-assist-v0.1.2`，提交
+  `6d08babef62e9d8c3ab5d05550924f1c71aa1d28`
+
+v0.1.2 把 v0.1.1 之后的开发转正：图片／文件／网页截图附件（含超上限阶梯压缩与
+中继 413 压缩重试）、浏览器内审批（输入框审批按钮气泡、完整显示、5 秒轮询对账）、
+语音听写、TTS 朗读、快捷 Prompt 插入，以及提交不再清空重建消息列表的滚动修复。
+运行该组合时检出 `v0.1.2` tag 再执行 `west update`；预编译产物见上文
+「预编译下载」。
+
+tag `v0.1.1` 是发布分支流程产出的首个组合：侧栏回复用配置的 Agent 名称标识，
+不再使用固定标签。
 
 - QwenPaw `v2.2.2.post1`，提交 `b6715daabaa4f966626317452980fb84b8be9ab9`
 - Page Assist Fork tag `agent-usage-v0.1.1`，提交
   `5a384102379caf2beff86400140c0217fa813920`
 - 插件 tag `qwenpaw-channel-page-assist-v0.1.1`，提交
   `fe06550af6c269fbcd15700321ff8747a879b60c`
-
-v0.1.1 是上述发布分支流程产出的首个组合：侧栏回复用配置的 Agent 名称标识，
-不再使用固定标签。运行该组合时检出 `release/v0.1.1` 或 `v0.1.1` tag，
-再执行 `west update`。
-
-### v0.1.1 之后的进展（主线，尚未发布）
-
-以下能力已在开发引用（扩展 `feat/qwenpaw-remote-channel`、插件 `main`）上落地，
-等待验收后随下一个发布组合发布；`west update` 即可拿到：
-
-- 附件通道：`POST /attachments` base64 上传，图片／文件／网页截图随消息发送，
-  Agent 侧以原生图片／文件内容收到；允许无正文、仅附件的消息。
-- 浏览器内审批：待审批列表与决定端点，输入框工具栏审批按钮弹出气泡完成批准或
-  拒绝，5 秒轮询对账；待审批不再写入对话流。
-- 输入区本地能力：语音听写、TTS 朗读回复、快捷 Prompt 插入。
-- 交互与健壮性修复：审批气泡完整显示不截断；大截图超出上限时阶梯压缩、被中继
-  以 413 拒绝时压缩重试一次；提交不再清空重建消息列表（视图不再飞顶），翻阅时
-  发送保持阅读位置。
-- 部署：前置反代／中继的 body 放行需覆盖 base64 膨胀（建议 `client_max_body_size
-  10m;`），详见插件 README「状态与数据边界」。
 
 tag `v0.1.0` 记录首个发布组合。它早于发布分支流程，因此仅由该 tag 标识：
 
