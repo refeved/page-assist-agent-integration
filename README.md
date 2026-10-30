@@ -78,7 +78,7 @@ Remote Agent and local models are separate paths with different capabilities:
 | --- | --- |
 | Text chat | Local RAG, web search, MCP |
 | Explicit webpage or selection sharing | Temporary chat, per-chat model settings |
-| Image, file and page-screenshot attachments | OCR, Page Action, WebMCP |
+| Image, file and page-screenshot attachments, plus reply media in the transcript | OCR, Page Action, WebMCP |
 | In-browser approvals (approve/deny under native policy) | Message edit/regenerate, branch, continue |
 | In-instance conversation history, new chats | Cross-restart recovery, automatic reconnect |
 | Speech dictation, TTS playback, quick prompts (run in the browser) | — |
@@ -254,6 +254,13 @@ reconciled by 5-second polling), speech dictation, TTS playback, quick-prompt
 insertion, and the scroll fix that no longer blanks and rebuilds the transcript
 on submit. To run this set, check out the `v0.1.2` tag and rerun `west update`;
 prebuilt artifacts are covered in "Prebuilt downloads" above.
+
+**Not in any tagged set yet:** reply media (plugin `0.1.3`) — images the Agent sends
+back are previewed in the side panel and every attachment, images included, comes with
+a download that keeps its original name, over the new optional `media` capability and
+the bearer-protected `GET /media/:id` route. It lives on the development refs only, so
+the extension build must match the plugin build. Tagging `v0.1.3` means pinning both
+commits here and mirroring this paragraph.
 
 Tag `v0.1.1` was the first set produced by the release-branch workflow. It
 labels side-panel replies with the configured Agent name instead of a fixed

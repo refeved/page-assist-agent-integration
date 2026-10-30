@@ -52,7 +52,7 @@
 
 ## 首版发布后扩展的能力
 
-下表固定的是 v0.1.x 发布组合的基线。插件 `main` 与扩展开发分支在其上补充了两项
+下表固定的是 v0.1.x 发布组合的基线。插件 `main` 与扩展开发分支在其上补充了三项
 可选能力，前端按 capabilities 声明降级，协议前缀与认证边界不变：
 
 - `approvals=true`：`GET /approvals` 返回本浏览器凭据拥有的待审批，
@@ -63,6 +63,13 @@
   区分图片与文件并存入绑定 Agent 工作区），消息以 `attachmentId` 一次性引用至多
   `maxAttachments` 个；无正文、仅附件的消息合法。频道对请求体设 8 MiB 闸门，
   前置反代或中继必须放行相应的膨胀体积。`recovery` 仍为 false。
+- `media=true`（v1 schema 的追加字段，缺省视为不支持该功能）：
+  `send_content_parts` 不得把媒体压平成文本占位。宿主暂存打算让浏览器看到的字节，
+  并在消息的 `attachments` 列表里引用：要么是受 Bearer 保护的 `GET /media/:id`
+  提供的 `mediaId`，要么是原样转发的公共 http(s) `url`——在服务端抓取它会让宿主变成
+  开放代理。暂存规模有界（单文件 5 MB、每条回复 4 个、每实例 64 MB，最旧优先驱逐，
+  重启后全部失效），宿主文件系统路径不得传到浏览器。`protocolVersion` 仍为 1，
+  `recovery` 仍为 false。
 
 ## 宿主无关性与后续适配
 

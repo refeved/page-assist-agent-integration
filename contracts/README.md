@@ -63,7 +63,7 @@ tool-approval acceptance.
 ## Capabilities added after the first release
 
 The v0.1.x release set is the baseline described above. Plugin `main` and the
-extension development branch add two optional capabilities; the frontend
+extension development branch add three optional capabilities; the frontend
 degrades by capabilities as always, and the path prefix and auth boundary are
 unchanged:
 
@@ -79,6 +79,15 @@ unchanged:
   one-use `attachmentId`s, and attachment-only messages without text are valid.
   The channel gates request bodies at 8 MiB, so any reverse proxy or relay in
   front must carry the base64-inflated size. `recovery` stays false.
+- `media=true` (additive to the v1 schema; absent means the host does not support
+  this feature): `send_content_parts` must not flatten media into a text placeholder. The
+  host buffers the bytes it wants the browser to see and references them from the
+  message's `attachments` list — either a `mediaId` served by the bearer-protected
+  `GET /media/:id`, or a public http(s) `url` forwarded untouched because fetching
+  it server-side would make the host an open proxy. Buffering is bounded (5 MB per
+  file, 4 per reply, 64 MB per instance, oldest evicted first, nothing survives a
+  restart) and no host filesystem path may reach the browser. `protocolVersion`
+  stays 1 and `recovery` stays false.
 
 ## Host neutrality and future adapters
 
