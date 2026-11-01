@@ -2,11 +2,24 @@ manifest:
   version: "0.13"
 
   # Development track. Released baselines stay pinned on their release branch.
+  #
+  # Upstream hosts are read-only references here, so they are fetched with a
+  # depth of 1 to keep downloads small. Never add clone-depth to a project this
+  # workspace commits into: shallow history breaks pushing.
   projects:
     - name: qwenpaw
       url: https://github.com/agentscope-ai/QwenPaw.git
       revision: v2.2.2.post1
+      clone-depth: 1
       path: qwenpaw
+
+    # Upstream OpenClaw Gateway source reference; read-only, used to design the
+    # Page Assist channel plugin against its plugin SDK.
+    - name: openclaw
+      url: https://github.com/openclaw/openclaw.git
+      revision: v2026.10.9
+      clone-depth: 1
+      path: openclaw
 
     - name: page-assist
       url: https://github.com/refeved/page-assist-agent-usage.git
@@ -17,6 +30,13 @@ manifest:
       url: https://github.com/refeved/qwenpaw-channel-page-assist.git
       revision: main
       path: qwenpaw-channel-page-assist
+
+    # Page Assist channel plugin for the OpenClaw Gateway. Developed and pushed
+    # from this workspace, so it keeps its full history.
+    - name: openclaw-channel-page-assist
+      url: https://github.com/refeved/openclaw-channel-page-assist.git
+      revision: main
+      path: openclaw-channel-page-assist
 
   self:
     path: integration
