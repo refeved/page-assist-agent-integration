@@ -8,13 +8,13 @@
 Chrome / Page Assist
         │ HTTPS + 浏览器专用凭据
         ▼
-QwenPaw 进程
+宿主进程：QwenPaw（pip 安装）或 OpenClaw Gateway
   ├── 独立安装的 Page Assist 频道（专用 HTTP 监听）
   ├── 原生会话、任务、历史和审批
-  └── 所选 QwenPaw Agent 及其配置的工具／记忆
+  └── 所选 Agent 及其配置的工具／记忆
 ```
 
-不单独部署中继服务，也不运行第二套 Agent 循环。浏览器扩展是客户端；QwenPaw 继续负责 Agent 执行、授权、工具治理和审批决定。扩展把该远程路径显示为 **Remote Agent**，与 **Local models** 并列；QwenPaw 是首个后端实现，不是 Provider 名称。
+不单独部署中继服务，也不运行第二套 Agent 循环。浏览器扩展是客户端；宿主继续负责 Agent 执行、授权、工具治理和审批决定。扩展把该远程路径显示为 **Remote Agent**，与 **Local models** 并列；QwenPaw 是首个后端实现，不是 Provider 名称。OpenClaw 是第二个宿主：同一契约、第二个插件、第二个默认端口（QwenPaw 8766 旁边的 8767），同一台机器可以同时运行两者。两者的差异记录在 [OpenClaw 适配层 profile](../contracts/README.zh-CN.md#第二宿主openclaw-适配层-profile)。
 
 完整的产品设计与实施计划见[简体中文版](design.zh-CN.md)和[英文版](design.md)。
 这些文档描述更广泛的目标；本版本以[基础频道 profile](../contracts/README.zh-CN.md#第一版基础频道-profile)为准。
@@ -29,6 +29,18 @@ QwenPaw 进程
 
 仅作为未修改的上游源码参考。运行时宿主使用 pip 安装的 QwenPaw `2.2.2.post1`；
 开发和安装频道无需修改此检出或构建其 Console。
+
+### `openclaw/`
+
+仅作为未修改的上游源码参考，以 clone depth 1 拉取。运行时宿主为已安装的
+OpenClaw 发布版；此检出用于针对插件 SDK 设计频道插件，不修改、不构建。
+
+### `openclaw-channel-page-assist/`
+
+负责 OpenClaw 频道插件：清单、经 Gateway 自身路由管线开出的专用认证 HTTP／SSE
+监听、聊天到 agent session 的映射、实例内请求与媒体账本，以及把宿主待审批投影到
+浏览器面板。历史和请求状态仅保存在内存，不绕过原生审批策略。远程仓库为
+[refeved/openclaw-channel-page-assist](https://github.com/refeved/openclaw-channel-page-assist)。
 
 ### `qwenpaw-channel-page-assist/`
 
@@ -53,6 +65,8 @@ QwenPaw 进程
 7. 在本仓库提交清单和集成测试改动，记录可复现的组合。发布版本在独立的 `release/vX.Y.Z` 分支上组合：先把每个 project 固定到可从远程获取的 tag 或提交，再为该分支打 tag。
 
 west 负责协调仓库位置和版本；它不提供跨仓库事务，也不能替代各项目自己的依赖管理。`main` 跟踪开发引用；发布清单在各自的发布分支上固定为不可变的 tag 或提交。
+
+OpenClaw 宿主遵循相同顺序，只是构建链不同：在 `openclaw-channel-page-assist/` 执行 `npm run build`，启动一个加载了该插件的 Gateway，再用 `scripts/openclaw-channel-browser.mjs` 验证——它驱动已构建的扩展连接该运行中的 Gateway，覆盖 capabilities、Agent 列表、一次提问与回复，以及在侧栏内批准的受限命令。
 
 ## 安全与本地数据
 

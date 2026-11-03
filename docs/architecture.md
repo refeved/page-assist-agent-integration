@@ -8,17 +8,20 @@
 Chrome / Page Assist
         │ HTTPS + browser-specific credentials
         ▼
-QwenPaw process
+Host process: QwenPaw (pip-installed) or OpenClaw Gateway
   ├── independently installed Page Assist channel (dedicated HTTP listener)
   ├── native sessions, tasks, history, and approvals
-  └── selected QwenPaw Agent and its configured tools/memory
+  └── selected Agent and its configured tools/memory
 ```
 
 There is no separately deployed relay service and no second Agent loop. The browser
-extension is a client; QwenPaw remains responsible for Agent execution,
+extension is a client; the host remains responsible for Agent execution,
 authorization, tool governance, and approval decisions. The extension presents
 this remote path as **Remote Agent**, alongside **Local models**; QwenPaw is the
-first backend implementation, not the provider name.
+first backend implementation, not the provider name. OpenClaw is the second host:
+the same contract, a second plugin, and a second default port (8767 beside
+QwenPaw's 8766), so one machine can run both. What differs between the two is
+recorded in the [OpenClaw adapter profile](../contracts/README.md#second-host-the-openclaw-adapter-profile).
 
 The complete product design and implementation plan is documented in
 [English](design.md) and [Chinese](design.zh-CN.md).
@@ -39,6 +42,22 @@ composition. It must not become a second copy of either product's implementation
 An unmodified upstream source reference. The runtime host is pip-installed
 QwenPaw `2.2.2.post1`; developing and installing the channel does not require
 editing this checkout or building its Console.
+
+### `openclaw/`
+
+An unmodified upstream source reference, fetched at clone depth 1. The runtime
+host is the installed OpenClaw release; the checkout exists to design the channel
+plugin against the plugin SDK and is never edited or built.
+
+### `openclaw-channel-page-assist/`
+
+Owns the OpenClaw channel plugin: the manifest, the dedicated authenticated
+HTTP/SSE listener opened through the Gateway's own route pipeline, the
+conversation-to-agent-session mapping, the in-instance request and media ledgers,
+and the projection of the host's pending approvals into the browser panel. History
+and request state are memory-only; native approval policy is not bypassed. The
+remote is
+[refeved/openclaw-channel-page-assist](https://github.com/refeved/openclaw-channel-page-assist).
 
 ### `qwenpaw-channel-page-assist/`
 
@@ -75,6 +94,12 @@ West coordinates repository locations and revisions; it does not provide a
 cross-repository transaction or replace each project's dependency manager.
 `main` tracks development refs; released manifests pin immutable tags or commits
 on their release branch.
+
+The OpenClaw host follows the same order with its own build: `npm run build` in
+`openclaw-channel-page-assist/`, run a Gateway with the plugin loaded, and verify
+with `scripts/openclaw-channel-browser.mjs`, which drives the built extension
+against that running Gateway — capabilities, the agent list, a question and its
+reply, and a gated command approved through the sidebar.
 
 ## Security and local data
 

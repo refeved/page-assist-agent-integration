@@ -71,6 +71,38 @@
   重启后全部失效），宿主文件系统路径不得传到浏览器。`protocolVersion` 仍为 1，
   `recovery` 仍为 false。
 
+## 第二宿主：OpenClaw 适配层 profile
+
+OpenClaw Gateway 是同一契约服务的第二个宿主，适配层为独立开发的插件
+[refeved/openclaw-channel-page-assist](https://github.com/refeved/openclaw-channel-page-assist)。
+它复用上文全部端点、载荷字段与句子；不同的是状态在宿主内部的位置，下表记录的正是这些差异。
+浏览器连接的是服务 origin——默认 `http://127.0.0.1:8767`，同一台机器仍可在 8766 上保留
+QwenPaw 频道——因为协议前缀由扩展自行拼接，且带路径的保存地址会被客户端拒绝。
+
+| 项目 | OpenClaw 适配层的可观察行为 |
+| --- | --- |
+| 监听 | 在 Gateway 进程内的专用端口；无中继、无第二个服务 |
+| 身份 | 以 `sha256(browserToken)` 为 principal，推导方式与 QwenPaw 频道完全一致 |
+| 能力 | `approvals`、`attachments`、`media` 为 true；`recovery`、`approvalEvents` 为 false |
+| 审批来源 | 每次 `GET /approvals` 从宿主待审批登记表拉取（`exec` 与 `plugin` 两类）；同一次轮询同时把请求移入/移出 `waiting_approval` |
+| 审批归属 | 宿主用自身 session key 标记记录；只有拥有该 session 的浏览器聊天能看到对应行 |
+| 审批 scope | 按宿主持久化的允许决定重新推导；未提供的 scope 返回 400，因为宿主会把越界决定静默当作拒绝执行 |
+| 审批传输 | 无推送通道；前端每 5 秒轮询即全部契约 |
+| 错误 | 401/404/409/429 同上；审批读取失败返回 503 `Approval service unavailable; retry shortly`，而不是空列表 |
+| 会话模型 | 一个浏览器聊天对应一个 agent session |
+| 媒体 | 同一条受 Bearer 保护的路由；回复引用在频道看到之前已由宿主解析 |
+
+以下两条宿主行为在此记录，因为它们限定的是适配层“能展示什么”，而不是它“选择展示什么”：
+
+- 首 token 无法解析为真实可执行文件的命令不会产生任何审批，宿主直接拒绝。
+  Windows 上的裸 shell 内建命令属于这一类，因此浏览器能看到的门必须是一条可解析的命令。
+- 宿主可能在把回复文本交给频道之前删除形如内部工具标记的行。适配层只追加它收到的文本，
+  不重组宿主过滤掉的内容。
+
+适配层由自身契约测试与本仓库的浏览器端到端检查（`scripts/openclaw-channel-browser.mjs`）
+共同验证：后者驱动已构建的扩展连接真实 Gateway，覆盖 capabilities、Agent 列表、一次提问与
+回复，以及一个在侧栏内批准、且执行输出回到转录中的受限命令。跨宿主共享测试样例仍是待办。
+
 ## 宿主无关性与后续适配
 
 契约中的路径、认证、请求与响应体、SSE 语义均与宿主无关；`/api/page-assist`

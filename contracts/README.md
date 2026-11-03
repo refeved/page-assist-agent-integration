@@ -89,6 +89,47 @@ unchanged:
   restart) and no host filesystem path may reach the browser. `protocolVersion`
   stays 1 and `recovery` stays false.
 
+## Second host: the OpenClaw adapter profile
+
+The OpenClaw Gateway is the second host served by this contract, through the
+independently developed plugin
+[refeved/openclaw-channel-page-assist](https://github.com/refeved/openclaw-channel-page-assist).
+It reuses every endpoint, payload field and sentence above; what differs is where
+the state lives inside the host, and the profile below records exactly that. The
+browser connects to the service origin — `http://127.0.0.1:8767` by default, so one
+machine can keep a QwenPaw channel on 8766 — because the extension appends the
+protocol prefix itself and refuses a saved URL that already carries a path.
+
+| Item | OpenClaw adapter's observable behavior |
+| --- | --- |
+| Listener | Inside the Gateway process on a dedicated port; no relay, no second service |
+| Identity | `sha256(browserToken)` as the principal, derived exactly as the QwenPaw channel derives it |
+| Capabilities | `approvals`, `attachments`, `media` true; `recovery`, `approvalEvents` false |
+| Approval source | Pulled from the host's pending registry (`exec` and `plugin` kinds) on every `GET /approvals`; the same poll moves a request to `waiting_approval` and back |
+| Approval ownership | The host tags records with its own session key; a row is shown only to the browser conversation that owns that session |
+| Approval scopes | Re-derived from the host's persisted allowed decisions; an unoffered scope is 400, because the host applies an out-of-set decision as a silent denial |
+| Approval transport | No push channel; the frontend's five-second poll is the whole contract |
+| Errors | 401/404/409/429 as above; a failed approval read is 503 `Approval service unavailable; retry shortly`, never an empty list |
+| Session model | One browser conversation is one agent session |
+| Media | The same single bearer-protected route; the host resolves reply references before the channel sees them |
+
+Two host behaviors are recorded here because they bound what the adapter can show
+rather than what it chooses to show:
+
+- A command whose first token cannot be resolved to a real executable raises no
+  approval at all; the host refuses it outright. On Windows a bare shell built-in
+  is in that set, so a gate a browser can see needs a resolvable command.
+- The host may remove a reply line that reads like an internal tool marker before
+  handing the text to the channel. The adapter appends what it receives and does
+  not reassemble what the host filtered.
+
+The adapter is validated by its own contract tests and by a browser end-to-end
+check (`scripts/openclaw-channel-browser.mjs` in this repository) that drives the
+shipped extension against a running Gateway: capabilities, the agent list, a
+question and its reply, and a gated command approved through the sidebar whose
+executed output returns in the transcript. A shared cross-host fixture suite is
+still open work.
+
 ## Host neutrality and future adapters
 
 Paths, authentication, request and response bodies, and SSE semantics are

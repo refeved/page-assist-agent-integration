@@ -115,20 +115,24 @@ protocol names stay in English.
 ## Workspace layout
 
 This repository coordinates the Page Assist browser extension and Agent host adapters
-through a reproducible west workspace. It contains four independent Git repositories:
+through a reproducible west workspace. It contains six independent Git repositories:
 
 | Path | Role |
 | --- | --- |
 | `integration/` | This repository: west manifest, architecture, shared API contracts, and cross-repository checks |
 | `qwenpaw/` | Unmodified upstream QwenPaw source reference; not required to run the plugin |
+| `openclaw/` | Unmodified upstream OpenClaw Gateway source reference, fetched at clone depth 1 |
 | [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | Independently installed in-process Page Assist channel plugin |
+| [`openclaw-channel-page-assist/`](https://github.com/refeved/openclaw-channel-page-assist) | Page Assist channel plugin for the OpenClaw Gateway; the second host on the same contract |
 | `page-assist/` | Page Assist fork, including the Remote Agent provider UI and transport; QwenPaw is the first backend |
 
-The three project checkouts are west projects, **not Git submodules**. `west.yml`
-records their source URLs and revisions: QwenPaw tracks the official upstream, Page
-Assist tracks the personal fork `refeved/page-assist-agent-usage`, and the plugin
-tracks
-[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist).
+The five project checkouts are west projects, **not Git submodules**. `west.yml`
+records their source URLs and revisions: QwenPaw tracks the official upstream,
+OpenClaw tracks its release tag at depth 1, Page Assist tracks the personal fork
+`refeved/page-assist-agent-usage`, and the two plugins track
+[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)
+and
+[refeved/openclaw-channel-page-assist](https://github.com/refeved/openclaw-channel-page-assist).
 
 ## Quick start
 
@@ -314,6 +318,22 @@ node tests/qwenpaw-channel-browser.mjs
 The browser regression requires the built extension and the Page Assist test
 dependencies. `QWENPAW_TEST_PYTHON` overrides the test interpreter;
 `QWENPAW_CHANNEL_DIR` overrides the plugin checkout path.
+
+The OpenClaw host is verified the same way, against a Gateway that is already
+running with the plugin loaded:
+
+```bash
+OPENCLAW_CONFIG=/path/to/openclaw.json \
+TOOL_PROBE=/path/to/tool-probe.json \
+node integration/scripts/openclaw-channel-browser.mjs
+```
+
+`OPENCLAW_CONFIG` names the Gateway under test (`PAGE_ASSIST_SERVICE` and
+`PAGE_ASSIST_TOKEN` override it); `TOOL_PROBE` points at the provider's tool-probe
+file when the approval path should be exercised. The script loads the built
+extension into a Chromium-family browser and drives the sidebar end to end:
+capabilities, the agent list, a question and its reply, and a gated command
+approved through the sidebar whose executed output returns in the transcript.
 
 ## More documentation
 

@@ -871,6 +871,14 @@ Evaluate only after the first release is stable:
 
 Reevaluate a standalone gateway only if unified multi-platform integration, independent scaling, or process isolation is needed. Do not retain a second relay application for this proposal.
 
+### 14.1 Second host adapter: OpenClaw (landed)
+
+The first item above — capability negotiation for more backend Agents — has been realized once, and the shape it took is the template for the next host. OpenClaw joins as a second backend through an independently developed channel plugin (`openclaw-channel-page-assist/`), not through changes to this design's QwenPaw module: the Gateway already owns sessions, tool governance and approvals, so the adapter's work is projection rather than execution. Three consequences are worth keeping as design constraints for any further host:
+
+- The adapter must not need a host-specific branch in the browser. Everything the sidebar learns about OpenClaw arrives through `GET /capabilities`, and the observable differences are recorded as a profile in [contracts](../contracts/README.md#second-host-the-openclaw-adapter-profile).
+- Approval authority stays native. The adapter reads the host's pending records and applies the user's decision through the host's own resolve path; it never grants on the user's behalf, and a decision the host would not honour is refused before it is forwarded.
+- Verification must include the browser. The cross-host check (`scripts/openclaw-channel-browser.mjs`) drives the shipped extension against a running Gateway, because a contract that only server-side tests have seen is not yet a contract.
+
 ## 15. Source References and Version Constraints
 
 The development baseline is the [official stable Release v2.2.2.post1](https://github.com/agentscope-ai/QwenPaw/releases/tag/v2.2.2.post1), marked non-draft and non-prerelease and released 2026-10-22. The release commit was verified read-only through Git objects; the local working branch was not switched. The following source links pin the full commit; deployment behavior has not been verified:
@@ -926,3 +934,4 @@ Upgrade only between official stable Releases and revalidate PawApp, identity pr
 | v2.0 | 2026-10-23 | Replaced with QwenPaw; replaced the standalone relay service with an in-process integration module; reused PawApp, native tasks, conversations, memory, and approvals; removed mandatory one-time approval; rewrote APIs, deployment, recovery, and acceptance |
 | v2.1 | 2026-10-23 | Pinned official stable v2.2.2.post1; rechecked release source; removed dependencies on newer plugin SDK, event bus, and hot reload; adopted stable PawApp, TaskTracker, ApprovalService, and centralized adapter |
 | v2.2 | 2026-10-23 | Pinned official Page Assist v1.5.88; detailed separate remote routes, component reuse, snapshot capture, Dexie v6, transport recovery, credential backup exclusions, file-level changes, and frontend validation |
+| v2.3 | 2026-11-03 | Recorded the landed OpenClaw second-host adapter: its plugin repository, capability profile, native approval projection, and the browser end-to-end check |

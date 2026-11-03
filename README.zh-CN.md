@@ -93,19 +93,23 @@ Manage Models 并列。截图为中文界面，组件与协议名称保持英文
 ## 工作区组成
 
 本仓库通过一个可复现的 west 工作区，协调 Page Assist 浏览器扩展与 Agent 宿主适配。
-工作区包含四个相互独立的 Git 仓库：
+工作区包含六个相互独立的 Git 仓库：
 
 | 路径 | 职责 |
 | --- | --- |
 | `integration/` | 本仓库：west 清单、架构、共享 API 契约及跨仓库检查 |
 | `qwenpaw/` | 未修改的 QwenPaw 上游源码参考；运行插件不需要此检出 |
+| `openclaw/` | 未修改的 OpenClaw Gateway 上游源码参考，以 clone depth 1 拉取 |
 | [`qwenpaw-channel-page-assist/`](https://github.com/refeved/qwenpaw-channel-page-assist) | 独立安装、在宿主进程内运行的 Page Assist 频道插件 |
+| [`openclaw-channel-page-assist/`](https://github.com/refeved/openclaw-channel-page-assist) | OpenClaw Gateway 的 Page Assist 频道插件；同一契约上的第二个宿主 |
 | `page-assist/` | Page Assist Fork，包含 Remote Agent Provider 界面和传输层；QwenPaw 是首个后端 |
 
-三个项目检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL
-和版本：QwenPaw 指向官方上游，Page Assist 指向个人 Fork
-`refeved/page-assist-agent-usage`，插件指向
-[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)。
+五个项目检出是 west project，**不是 Git submodule**。`west.yml` 记录它们的来源 URL
+和版本：QwenPaw 指向官方上游，OpenClaw 以 depth 1 指向其发布 tag，Page Assist 指向个人 Fork
+`refeved/page-assist-agent-usage`，两个插件分别指向
+[refeved/qwenpaw-channel-page-assist](https://github.com/refeved/qwenpaw-channel-page-assist)
+与
+[refeved/openclaw-channel-page-assist](https://github.com/refeved/openclaw-channel-page-assist)。
 
 ## 快速开始
 
@@ -264,6 +268,19 @@ node tests/qwenpaw-channel-browser.mjs
 
 浏览器回归需要已构建的扩展和 Page Assist 测试依赖。
 `QWENPAW_TEST_PYTHON` 可指定测试解释器，`QWENPAW_CHANNEL_DIR` 可指定插件仓库路径。
+
+OpenClaw 宿主用同样方式验证，前提是已有一个加载了该插件的运行中 Gateway：
+
+```bash
+OPENCLAW_CONFIG=/path/to/openclaw.json \
+TOOL_PROBE=/path/to/tool-probe.json \
+node integration/scripts/openclaw-channel-browser.mjs
+```
+
+`OPENCLAW_CONFIG` 指定被测 Gateway（可用 `PAGE_ASSIST_SERVICE` 与 `PAGE_ASSIST_TOKEN`
+覆盖）；需要验证审批链路时，`TOOL_PROBE` 指向 provider 的 tool-probe 文件。脚本把已构建的
+扩展加载进 Chromium 系浏览器并端到端驱动侧栏：capabilities、Agent 列表、一次提问与回复，
+以及一个在侧栏内批准、且执行输出回到转录中的受限命令。
 
 ## 更多文档
 
